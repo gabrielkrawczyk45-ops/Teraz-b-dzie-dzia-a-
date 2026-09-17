@@ -1,0 +1,2864 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Entry 3 Trainer">
+<meta name="theme-color" content="#f4f6fb">
+<title>English Entry 3 Pocket Trainer</title>
+<style>
+:root{
+  --bg:#f4f6fb;--panel:#fff;--text:#162033;--muted:#667085;--line:#dfe5ef;
+  --accent:#2f6fed;--accent2:#eaf1ff;--good:#16794c;--bad:#b42318;--warn:#b54708;
+  --soft:#f8fafc;--shadow:0 6px 24px rgba(25,42,70,.07);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:1220px;margin:auto;padding:20px}
+.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:18px}
+h1{font-size:32px;margin:4px 0 4px} h2{margin:0 0 14px} h3{margin:0 0 10px}
+p{line-height:1.55}
+.muted{color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border-radius:999px;background:var(--accent2);color:var(--accent);font-weight:800;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.c12{grid-column:span 12}.c8{grid-column:span 8}.c6{grid-column:span 6}.c4{grid-column:span 4}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+@media(max-width:900px){.c8,.c6,.c4{grid-column:span 12}.app{padding:12px}}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.nav button,.btn{border:0;border-radius:10px;padding:10px 14px;background:var(--accent);color:white;font-weight:800}
+.nav button{background:#e9edf4;color:var(--text)}
+.nav button.active{background:var(--accent);color:#fff}
+.btn.secondary{background:#edf0f5;color:var(--text)}
+.btn.good{background:var(--good)} .btn.warn{background:var(--warn)}
+.btn.bad{background:var(--bad)} .btn:disabled{opacity:.5;cursor:not-allowed}
+.panel{display:none}.panel.active{display:block}
+.progress{height:13px;background:#e9edf3;border-radius:999px;overflow:hidden}
+.progress>div{height:100%;width:0;background:var(--accent);transition:width .25s}
+.statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}
+.stat b{font-size:25px;display:block}
+@media(max-width:650px){.statrow{grid-template-columns:repeat(2,1fr)}}
+.plan{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.plan .wk{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.plan .wk strong{display:block;margin-bottom:5px}
+@media(max-width:900px){.plan{grid-template-columns:repeat(2,1fr)}} @media(max-width:520px){.plan{grid-template-columns:1fr}}
+.topiclist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.topic{border:1px solid var(--line);border-radius:12px;padding:12px}
+@media(max-width:650px){.topiclist{grid-template-columns:1fr}}
+input[type=text],textarea,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text)}
+textarea{min-height:150px;resize:vertical}
+.question{padding:14px 0;border-bottom:1px solid var(--line)}
+.question:last-child{border-bottom:0}
+.option{display:block;margin:8px 0}
+.option input{margin-right:7px}
+.result{margin-top:12px;padding:12px;border-radius:10px;background:#f0f3f7}
+.ok{color:var(--good);font-weight:800}.no{color:var(--bad);font-weight:800}.warntext{color:var(--warn);font-weight:800}
+.example{background:var(--soft);border-left:4px solid var(--accent);padding:12px;border-radius:8px;line-height:1.6}
+.wordbig{font-size:36px;font-weight:900;letter-spacing:.7px;margin:12px 0}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row>*{min-width:0}
+.grow{flex:1 1 240px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button{border:1px solid var(--line);background:white;padding:8px 11px;border-radius:9px;font-weight:700}
+.tabs button.active{border-color:var(--accent);background:var(--accent2);color:var(--accent)}
+.hidden{display:none!important}
+.kbd{display:inline-block;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:1px 6px;background:white;font-size:12px}
+.checklist label{display:flex;gap:8px;margin:8px 0;align-items:flex-start}
+.checklist input{margin-top:4px}
+.table{width:100%;border-collapse:collapse}.table th,.table td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.scorebox{font-size:30px;font-weight:900}
+.timer{font-size:27px;font-weight:900}
+.flash{border:1px dashed var(--line);border-radius:14px;padding:22px;text-align:center;min-height:170px;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.flash .front{font-size:30px;font-weight:900}
+.flash .back{font-size:18px;color:var(--muted);margin-top:10px}
+.small{font-size:13px}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+.syllabus li{margin:7px 0}
+.pill{display:inline-block;padding:4px 8px;border-radius:99px;background:#eef2f7;margin:3px 4px 3px 0;font-size:13px}
+label>span.label{display:block;margin-bottom:6px;font-weight:700}
+
+.live-feedback{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe}
+.live-feedback.good{border-color:#a7d7bd;background:#f2fbf6}
+.live-feedback.bad{border-color:#f1b5b0;background:#fff6f5}
+.live-tag{display:inline-block;font-size:12px;font-weight:800;padding:3px 7px;border-radius:999px;margin-right:6px}
+.tag-sp{background:#fff3cd;color:#7a5d00}
+.tag-gr{background:#fde8e7;color:#9b1c1c}
+.tag-p{background:#e8f1ff;color:#1e4fa3}
+.tag-cl{background:#efe7ff;color:#5f3aa8}
+.tag-mw{background:#e9f8ef;color:#176b45}
+.feedback-line{margin:6px 0;padding:8px 10px;border-radius:8px;background:white;border:1px solid var(--line)}
+.feedback-line strong{display:inline-block;min-width:34px}
+.inline-ok{outline:2px solid #8bd0aa!important;background:#f5fff8!important}
+.inline-bad{outline:2px solid #ef9b94!important;background:#fff8f7!important}
+.diff{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;word-break:break-word}
+.diff .same{color:var(--good)}
+.diff .wrong{color:var(--bad);text-decoration:underline;text-decoration-thickness:2px}
+.diff .missing{color:var(--warn);font-weight:800}
+.coach-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
+@media(max-width:800px){.coach-grid{grid-template-columns:1fr}}
+.mistake-log{max-height:280px;overflow:auto}
+.mistake-item{padding:9px 0;border-bottom:1px solid var(--line)}
+.mistake-item:last-child{border-bottom:0}
+
+
+.sentence-map{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.sentence-card{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff}
+.sentence-card .form{font-size:20px;font-weight:900;margin:4px 0}
+.sentence-card .use{font-size:13px;color:var(--muted)}
+.verb-table{width:100%;border-collapse:collapse}
+.verb-table th,.verb-table td{border-bottom:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}
+.builder-output{font-size:22px;font-weight:800;padding:14px;border-radius:12px;background:var(--soft);border:1px solid var(--line);min-height:58px}
+.rule-box{padding:12px;border-radius:10px;background:#f8fafc;border-left:4px solid var(--accent);margin:10px 0}
+@media(max-width:900px){.sentence-map{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.sentence-map{grid-template-columns:1fr}}
+
+
+.auto-correct-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:820px){.auto-correct-grid{grid-template-columns:1fr}}
+.correction-preview{min-height:170px;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fbfcfe;white-space:pre-wrap;line-height:1.65}
+.issue-card{border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0;background:white}
+.issue-card .wrong-text{color:var(--bad);font-weight:800}
+.issue-card .correct-text{color:var(--good);font-weight:800}
+.issue-card .why{color:var(--muted);font-size:13px;margin-top:4px}
+.issue-count{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:999px;background:var(--accent2);color:var(--accent);font-weight:900}
+.sentence-good{background:#eefaf3;border-radius:6px;padding:1px 4px}
+.sentence-bad{background:#fff0ef;border-radius:6px;padding:1px 4px;text-decoration:underline;text-decoration-color:#d92d20;text-decoration-thickness:2px}
+.suggestion-box{padding:12px;border-left:4px solid var(--good);background:#f3fbf6;border-radius:8px;margin-top:10px}
+
+
+.spell-suggestion{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.spell-chip{display:inline-block;padding:4px 8px;border-radius:8px;background:#fff4d6;color:#7a5600;font-weight:800;border:1px solid #f0d98a}
+.spell-summary{padding:10px;border-radius:10px;background:#fffaf0;border:1px solid #f2dda6;margin-top:8px}
+
+
+/* ===== ULTIMATE LEARNING MODULES ===== */
+.ultimate-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.u12{grid-column:span 12}.u8{grid-column:span 8}.u6{grid-column:span 6}.u4{grid-column:span 4}
+@media(max-width:860px){.u8,.u6,.u4{grid-column:span 12}}
+.mastery-row{margin:12px 0}
+.mastery-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:5px}
+.mastery-track{height:12px;border-radius:999px;background:#e9edf3;overflow:hidden}
+.mastery-fill{height:100%;background:var(--accent);width:0;transition:width .25s}
+.mastery-fill.weak{background:#b42318}.mastery-fill.mid{background:#b54708}.mastery-fill.good{background:#16794c}
+.focus-card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--soft)}
+.challenge-q{border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0;background:white}
+.challenge-q.correct{border-color:#a7d7bd;background:#f3fbf6}
+.challenge-q.wrong{border-color:#efb0aa;background:#fff6f5}
+.hint-box{padding:9px 10px;border-radius:8px;background:#fff8e8;border:1px solid #f1d992;margin-top:8px}
+.listen-box{text-align:center;padding:22px;border:1px dashed var(--line);border-radius:14px;background:var(--soft)}
+.listen-sentence{font-size:22px;font-weight:800;min-height:34px}
+.big-score{font-size:42px;font-weight:900;line-height:1}
+.exam-count{font-size:28px;font-weight:900}
+.timerbox{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.timerdisplay{font-size:32px;font-weight:900;min-width:110px}
+.review-card{padding:16px;border:1px solid var(--line);border-radius:14px;background:white}
+.review-wrong{font-size:18px;color:var(--bad);font-weight:800}
+.review-answer{font-size:18px;color:var(--good);font-weight:800}
+.rubric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:700px){.rubric-grid{grid-template-columns:1fr}}
+.rubric-item{padding:11px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.rubric-item b{font-size:24px;display:block}
+.day-dot{display:inline-flex;width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;margin:2px;background:#e9edf3;font-size:12px;font-weight:800}
+.day-dot.done{background:#dff4e7;color:#136a40}
+.tool-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.section-note{padding:10px 12px;border-radius:10px;background:#eef4ff;border-left:4px solid var(--accent)}
+.import-label{display:inline-block}
+.hidden-input{display:none}
+
+
+/* ===== WORD DICTIONARY ===== */
+.dict-toolbar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:760px){.dict-toolbar{grid-template-columns:1fr}}
+.dict-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(max-width:760px){.dict-list{grid-template-columns:1fr}}
+.dict-card{border:1px solid var(--line);border-radius:13px;padding:13px;background:white}
+.dict-word{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dict-word strong{font-size:22px}
+.dict-meaning{font-size:17px;margin:6px 0}
+.dict-example{padding:8px 10px;background:var(--soft);border-radius:8px;margin-top:8px;line-height:1.55}
+.dict-note{color:var(--muted);font-size:13px;margin-top:7px}
+.dict-form{display:inline-block;padding:3px 7px;border-radius:999px;background:#eef2f7;font-size:12px;font-weight:800}
+.dict-audio{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:9px;padding:7px 9px;font-weight:800}
+.compare-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(max-width:820px){.compare-grid{grid-template-columns:1fr}}
+.compare-card{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff}
+.dict-quiz-box{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--soft)}
+.mobile-hint{display:none}
+
+
+/* ===== IPHONE / MOBILE EDITION ===== */
+html{-webkit-text-size-adjust:100%}
+body{font-size:17px;padding-bottom:env(safe-area-inset-bottom)}
+.app{padding:12px 10px calc(92px + env(safe-area-inset-bottom));max-width:760px}
+h1{font-size:27px;line-height:1.12}
+h2{font-size:23px}
+h3{font-size:19px}
+.card{padding:15px;border-radius:14px;box-shadow:none}
+.top{margin-bottom:8px}
+.top .row{width:100%}
+.top .row .btn{flex:1}
+.nav{
+  position:sticky;bottom:0;z-index:50;background:rgba(244,246,251,.96);
+  margin:10px -10px 14px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;border-top:1px solid var(--line);
+}
+.nav button{flex:0 0 auto;min-height:46px;padding:10px 14px;white-space:nowrap}
+button,.btn,.dict-audio{min-height:44px}
+input[type=text],input[type=date],textarea,select{font-size:16px;min-height:44px}
+textarea{min-height:190px}
+.plan{grid-template-columns:1fr}
+.statrow{grid-template-columns:repeat(2,1fr)}
+.compare-grid,.dict-list,.auto-correct-grid,.coach-grid,.ultimate-grid{grid-template-columns:1fr}
+.c12,.c8,.c6,.c4,.u12,.u8,.u6,.u4{grid-column:span 12}
+.table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.wordbig{font-size:31px}
+.mobile-hint{display:block}
+#dictList .dict-card{padding:14px}
+.dict-word strong{font-size:24px}
+.dict-meaning{font-size:18px}
+.result,.live-feedback,.example,.rule-box{font-size:16px}
+
+</style>
+
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#2f6fed">
+
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div>
+      <span class="badge">🎓 English Entry 3 • Exam Preparation</span>
+      <h1>English Entry 3 Pocket Trainer</h1>
+      <div class="muted">iPhone edition • Entry 3 exam preparation • works in Safari.</div><div class="mobile-hint section-note" style="margin-top:10px">📱 Przewijaj dolne menu w bok, aby przechodzić między modułami. Najlepiej używać w Safari.</div>
+    </div>
+    <div class="row">
+      <button class="btn secondary" id="exportProgress">Eksportuj wyniki</button>
+      <button class="btn secondary" id="resetProgress">Reset</button>
+    </div>
+  </div>
+
+  <section class="grid">
+    <div class="card c8">
+      <h2>Twój plan przygotowania do egzaminu — 8 tygodni</h2>
+      <div class="plan">
+        <div class="wk"><strong>Week 1</strong>Sentence building, capitals, punctuation, Present Simple.</div>
+        <div class="wk"><strong>Week 2</strong>Present Continuous, Past Simple, question forms.</div>
+        <div class="wk"><strong>Week 3</strong>Present Perfect, for/since, used to / would.</div>
+        <div class="wk"><strong>Week 4</strong>Spelling, common errors, word families, -ed/-ing.</div>
+        <div class="wk"><strong>Week 5</strong>Travel, work, education, weather, prepositions.</div>
+        <div class="wk"><strong>Week 6</strong>Reading comprehension + finding key information.</div>
+        <div class="wk"><strong>Week 7</strong>Writing emails, messages, descriptions, 80–120 words.</div>
+        <div class="wk"><strong>Week 8</strong>Mock exams + correction of weak areas.</div>
+      </div>
+    </div>
+    <aside class="card c4">
+      <h2>Postęp</h2>
+      <div class="progress"><div id="overallBar"></div></div>
+      <p><span class="scorebox" id="overallPct">0%</span></p>
+      <div class="statrow">
+        <div class="stat"><b id="sessionsStat">0</b><span class="muted small">sesji</span></div>
+        <div class="stat"><b id="quizStat">0</b><span class="muted small">quizów</span></div>
+        <div class="stat"><b id="bestStat">0%</b><span class="muted small">best mock</span></div>
+        <div class="stat"><b id="wordsStat">0</b><span class="muted small">spelling OK</span></div>
+      </div>
+      <button class="btn good" id="finishSession" style="margin-top:12px;width:100%">Zaliczyłem dzisiejszą sesję</button>
+    </aside>
+  </section>
+
+  <div class="nav" id="mainNav">
+    <button data-panel="dashboard" class="active">Dashboard</button>
+    <button data-panel="grammar">Grammar</button>
+    <button data-panel="sentencebuilder">Sentence Builder</button>
+    <button data-panel="dictionary">Word Dictionary</button>
+    <button data-panel="daily">Daily Challenge</button>
+    <button data-panel="listening">Listening & Dictation</button>
+    <button data-panel="transformations">Transformations</button>
+    <button data-panel="mastery">Mastery</button>
+    <button data-panel="spelling">Spelling</button>
+    <button data-panel="reading">Reading</button>
+    <button data-panel="writing">Writing</button>
+    <button data-panel="vocabulary">Vocabulary</button>
+    <button data-panel="corrections">My mistakes</button>
+    <button data-panel="mock">Mock Exam</button>
+  </div>
+
+  <section id="dashboard" class="panel active">
+    <div class="grid">
+      <div class="card c6">
+        <h2>Codzienny trening 35–45 min</h2>
+        <table class="table">
+          <tr><th>5 min</th><td>Spelling — 5–10 słów</td></tr>
+          <tr><th>10 min</th><td>Grammar — 1 temat + quiz</td></tr>
+          <tr><th>10 min</th><td>Reading albo vocabulary</td></tr>
+          <tr><th>10–15 min</th><td>Writing — minimum 6 pełnych zdań</td></tr>
+          <tr><th>5 min</th><td>Popraw błędy: SP / GR / P / CL / MW</td></tr>
+        </table>
+      </div>
+      <div class="card c6">
+        <h2>Najważniejsze oznaczenia z zajęć</h2>
+        <p><span class="pill">SP = spelling mistake</span><span class="pill">GR = grammar mistake</span><span class="pill">P = punctuation</span><span class="pill">CL = capital letter</span><span class="pill">MW = missing word</span></p>
+        <div class="example"><strong>Zasada:</strong> po napisaniu tekstu zrób własną kontrolę. Nie poprawiaj tylko pojedynczych słów — popraw całe zdanie.</div>
+      </div>
+
+      <div class="card c12">
+        <h2>Zakres Entry 3, który trenujemy</h2>
+        <div class="topiclist">
+          <div class="topic"><strong>Grammar</strong><br>Present Simple/Continuous, Past Simple, Present Perfect, future forms, used to/would, comparatives, modals, questions, negatives.</div>
+          <div class="topic"><strong>Writing</strong><br>Full sentences, paragraphs, emails/messages, descriptions, giving reasons, sequencing, punctuation, capitals.</div>
+          <div class="topic"><strong>Reading</strong><br>Main idea, detail, scanning, signs/notices, short articles, inference from context.</div>
+          <div class="topic"><strong>Vocabulary</strong><br>Travel, work, education, daily life, weather, transport, accommodation, health, phrasal verbs, prepositions.</div>
+          <div class="topic"><strong>Spelling</strong><br>High-frequency Entry 3 words, suffixes, double consonants, silent letters, common personal errors.</div>
+          <div class="topic"><strong>Exam technique</strong><br>Read command words, underline key details, check word count, leave 5 minutes for correction.</div>
+        </div>
+      </div>
+
+
+      <div class="card c12">
+        <h2>Smart Study Dashboard</h2>
+        <div class="ultimate-grid">
+          <div class="u4 focus-card">
+            <h3>🔥 Streak</h3>
+            <div class="exam-count"><span id="streakDays">0</span> dni</div>
+            <div id="streakWeek" style="margin-top:8px"></div>
+            <p class="muted small">Zaliczenie codziennej sesji buduje serię.</p>
+          </div>
+          <div class="u4 focus-card">
+            <h3>🎯 Do egzaminu</h3>
+            <input type="date" id="examDateInput">
+            <div class="exam-count" id="examCountdown" style="margin-top:8px">Ustaw datę</div>
+            <p class="muted small">Data zapisuje się tylko na tym komputerze.</p>
+          </div>
+          <div class="u4 focus-card">
+            <h3>⏱ Study Timer</h3>
+            <div class="timerbox">
+              <span class="timerdisplay" id="studyTimer">25:00</span>
+              <button class="btn" id="startStudyTimer">Start</button>
+              <button class="btn secondary" id="resetStudyTimer">Reset</button>
+            </div>
+            <select id="timerPreset" style="margin-top:8px">
+              <option value="25">25 min focus</option>
+              <option value="35">35 min Entry 3 session</option>
+              <option value="45">45 min full session</option>
+            </select>
+          </div>
+          <div class="u12 focus-card">
+            <h3>📌 Co ćwiczyć dzisiaj</h3>
+            <div id="todayFocus">Zrób kilka ćwiczeń, a program zacznie wskazywać Twoje słabsze obszary.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card c12">
+        <h2>Live Error Coach</h2>
+        <p>W tej wersji program pokazuje błędy <strong>od razu</strong>: zaznacza odpowiedź na zielono/czerwono, pokazuje typ błędu (SP / GR / P / CL / MW), poprawną formę i krótkie wyjaśnienie.</p>
+        <div class="example"><strong>Najważniejsze:</strong> nie patrz tylko na poprawną odpowiedź. Przeczytaj wyjaśnienie i napisz całe zdanie jeszcze raz poprawnie.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="grammar" class="panel card">
+    <h2>Grammar Academy</h2>
+    <div class="tabs" id="grammarTabs">
+      <button data-g="present" class="active">Present</button>
+      <button data-g="past">Past</button>
+      <button data-g="perfect">Present Perfect</button>
+      <button data-g="usedto">Used to / Would</button>
+      <button data-g="questions">Questions</button>
+      <button data-g="mixed">Mixed Quiz</button>
+    </div>
+
+    <div class="gsec" id="g-present">
+      <div class="grid">
+        <div class="c6">
+          <h3>Present Simple</h3>
+          <div class="example"><strong>Use:</strong> routines, facts, regular actions.<br>I work 12-hour shifts.<br>I go to college on Wednesdays.<br>He works nights.</div>
+        </div>
+        <div class="c6">
+          <h3>Present Continuous</h3>
+          <div class="example"><strong>Use:</strong> now, temporary situations, arrangements.<br>I am studying English now.<br>I am working tonight.<br>We are meeting at 11:30.</div>
+        </div>
+      </div>
+      <hr>
+      <form class="miniQuiz" data-quiz="present">
+        <div class="question"><strong>1.</strong> I ___ in Wakefield. <select name="q1"><option value="">-- choose --</option><option>live</option><option>am living</option></select></div>
+        <div class="question"><strong>2.</strong> I ___ tonight. <select name="q2"><option value="">-- choose --</option><option>work</option><option>am working</option></select></div>
+        <div class="question"><strong>3.</strong> She ___ English every Wednesday. <select name="q3"><option value="">-- choose --</option><option>studies</option><option>is studying</option></select></div>
+        <button class="btn" type="submit">Sprawdź</button><div class="result quizResult">Wynik pojawi się tutaj.</div>
+      </form>
+    </div>
+
+    <div class="gsec hidden" id="g-past">
+      <h3>Past Simple</h3>
+      <div class="example">Yesterday I <strong>worked</strong> a night shift.<br>Last weekend I <strong>went</strong> to the gym.<br>I <strong>didn't work</strong> on Monday.<br><strong>Did</strong> you <strong>go</strong> to college?</div>
+      <form class="miniQuiz" data-quiz="past">
+        <div class="question">1. Last weekend I ___ at work. <select name="q1"><option value=""></option><option>was</option><option>am</option></select></div>
+        <div class="question">2. Did you ___ to the gym? <select name="q2"><option value=""></option><option>go</option><option>went</option></select></div>
+        <div class="question">3. I didn't ___ yesterday. <select name="q3"><option value=""></option><option>work</option><option>worked</option></select></div>
+        <button class="btn" type="submit">Sprawdź</button><div class="result quizResult"></div>
+      </form>
+    </div>
+
+    <div class="gsec hidden" id="g-perfect">
+      <h3>Present Perfect</h3>
+      <div class="example"><strong>have/has + past participle</strong><br>I have lived in the UK for 11 years.<br>I have worked here since 2023.<br>Have you ever visited Scotland?</div>
+      <p><strong>for</strong> = period: for 11 years. <strong>since</strong> = starting point: since 2015.</p>
+      <form class="miniQuiz" data-quiz="perfect">
+        <div class="question">1. I ___ lived in the UK for 11 years. <select name="q1"><option value=""></option><option>have</option><option>am</option></select></div>
+        <div class="question">2. I have worked here ___ 2023. <select name="q2"><option value=""></option><option>since</option><option>for</option></select></div>
+        <div class="question">3. I have studied English ___ two months. <select name="q3"><option value=""></option><option>for</option><option>since</option></select></div>
+        <button class="btn" type="submit">Sprawdź</button><div class="result quizResult"></div>
+      </form>
+    </div>
+
+    <div class="gsec hidden" id="g-usedto">
+      <h3>Used to / Would</h3>
+      <div class="example">
+        I <strong>used to live</strong> in Poland.<br>
+        When I was a child, I <strong>would play</strong> outside every day.<br>
+        Did you <strong>use to</strong> play football?<br>
+        I didn't <strong>use to</strong> drink coffee.
+      </div>
+      <p><strong>Used to</strong> works for past states and repeated actions. <strong>Would</strong> is mainly for repeated past actions, not states.</p>
+      <form class="miniQuiz" data-quiz="usedto">
+        <div class="question">1. I ___ be shy. <select name="q1"><option value=""></option><option>used to</option><option>would</option></select></div>
+        <div class="question">2. Did you ___ play football? <select name="q2"><option value=""></option><option>use to</option><option>used to</option></select></div>
+        <div class="question">3. Every summer we ___ visit our grandparents. <select name="q3"><option value=""></option><option>would</option><option>are</option></select></div>
+        <button class="btn" type="submit">Sprawdź</button><div class="result quizResult"></div>
+      </form>
+    </div>
+
+    <div class="gsec hidden" id="g-questions">
+      <h3>Question forms</h3>
+      <div class="example">
+        Do you work nights?<br>
+        Did you go yesterday?<br>
+        Have you finished?<br>
+        Are you working tonight?<br>
+        Where do you live?
+      </div>
+      <form class="miniQuiz" data-quiz="questions">
+        <div class="question">1. ___ you work nights? <select name="q1"><option value=""></option><option>Do</option><option>Are</option></select></div>
+        <div class="question">2. ___ you working tonight? <select name="q2"><option value=""></option><option>Are</option><option>Do</option></select></div>
+        <div class="question">3. ___ you ever visited London? <select name="q3"><option value=""></option><option>Have</option><option>Did</option></select></div>
+        <button class="btn" type="submit">Sprawdź</button><div class="result quizResult"></div>
+      </form>
+    </div>
+
+    <div class="gsec hidden" id="g-mixed">
+      <h3>Mixed Grammar Quiz — 10 pytań</h3>
+      <form id="mixedGrammarForm"></form>
+      <div id="mixedGrammarResult" class="result">Kliknij „Nowy quiz”.</div>
+      <div class="row" style="margin-top:10px"><button class="btn secondary" id="newMixedGrammar">Nowy quiz</button><button class="btn" id="checkMixedGrammar">Sprawdź</button></div>
+    </div>
+  </section>
+
+
+  <section id="sentencebuilder" class="panel card">
+    <h2>Sentence Builder — jak wybrać poprawną formę czasownika</h2>
+    <p>Ta sekcja jest zrobiona pod materiał z Twoich zdjęć: <strong>used to / would</strong>, Present Simple, Present Continuous, Past Simple, pytania z <strong>did</strong>, oraz budowanie pełnych zdań z poprawną wielką literą i interpunkcją.</p>
+
+    <div class="sentence-map">
+      <div class="sentence-card">
+        <span class="badge">ROUTINE / FACT</span>
+        <div class="form">I go / I live / I work</div>
+        <div class="use">Present Simple — rutyna, fakt, coś regularnego.</div>
+        <p><strong>I go to the gym</strong> three times a week.<br><strong>I live in Wakefield.</strong><br><strong>I work</strong> 12-hour shifts.</p>
+      </div>
+      <div class="sentence-card">
+        <span class="badge">NOW / ARRANGEMENT</span>
+        <div class="form">I am going / I am working</div>
+        <div class="use">Present Continuous — teraz, tymczasowo lub zaplanowane.</div>
+        <p><strong>I am going to the gym now.</strong><br><strong>I am working tonight.</strong><br><strong>I am meeting her tomorrow.</strong></p>
+      </div>
+      <div class="sentence-card">
+        <span class="badge">PAST</span>
+        <div class="form">I went / I worked / I lived</div>
+        <div class="use">Past Simple — zakończona czynność w przeszłości.</div>
+        <p><strong>I went</strong> to the gym yesterday.<br><strong>I worked</strong> last weekend.<br><strong>I lived</strong> in Poland before I moved to the UK.</p>
+      </div>
+      <div class="sentence-card">
+        <span class="badge">PAST HABIT</span>
+        <div class="form">I used to go</div>
+        <div class="use">Used to — kiedyś robiłem / byłem, ale teraz już niekoniecznie.</div>
+        <p><strong>I used to go</strong> to the gym after work.<br><strong>I used to live</strong> in Poland.<br><strong>I used to be</strong> shy.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    
+    <h3>I go vs I am going — bardzo ważne</h3>
+    <div class="rule-box">
+      <strong>❌ I am go</strong> — tego NIE używamy.<br>
+      Po <strong>am / is / are</strong> czasownik zwykle musi mieć końcówkę <strong>-ing</strong>:<br>
+      ✅ I am <strong>going</strong>.<br>
+      ✅ She is <strong>working</strong>.<br>
+      ✅ We are <strong>studying</strong>.
+    </div>
+
+    <div class="grid">
+      <div class="c6">
+        <h3>I go = robię regularnie / zwykle</h3>
+        <div class="rule-box">
+          Używaj <strong>Present Simple</strong>, gdy mówisz o rutynie, zwyczaju, fakcie lub czymś regularnym.
+        </div>
+        <p>
+          ✅ I <strong>go</strong> to the gym three times a week.<br>
+          ✅ I <strong>go</strong> to work at 6 a.m.<br>
+          ✅ I <strong>go</strong> to college every Wednesday.<br>
+          ✅ I <strong>live</strong> in Wakefield.<br>
+          ✅ I <strong>work</strong> as a Shift Manager.<br>
+          ✅ I <strong>study</strong> English every week.<br>
+          ✅ I <strong>eat</strong> breakfast before work.<br>
+          ✅ I <strong>drive</strong> to work.<br>
+          ✅ I <strong>watch</strong> TV in the evening.<br>
+          ✅ I <strong>play</strong> football on Sundays.
+        </p>
+        <p class="muted small"><strong>Słowa podpowiadające:</strong> every day, every week, usually, often, sometimes, always, normally, on Mondays.</p>
+      </div>
+
+      <div class="c6">
+        <h3>I am going = teraz / dziś / zaplanowane</h3>
+        <div class="rule-box">
+          Używaj <strong>Present Continuous</strong>, gdy coś dzieje się teraz, jest tymczasowe albo masz konkretny plan.
+        </div>
+        <p>
+          ✅ I am <strong>going</strong> to the gym now.<br>
+          ✅ I am <strong>going</strong> to work now.<br>
+          ✅ I am <strong>going</strong> to college tomorrow.<br>
+          ✅ I am <strong>working</strong> tonight.<br>
+          ✅ I am <strong>studying</strong> English at the moment.<br>
+          ✅ I am <strong>eating</strong> breakfast now.<br>
+          ✅ I am <strong>driving</strong> to work now.<br>
+          ✅ I am <strong>watching</strong> TV now.<br>
+          ✅ I am <strong>meeting</strong> my friend tomorrow.<br>
+          ✅ I am <strong>staying</strong> with my family this week.
+        </p>
+        <p class="muted small"><strong>Słowa podpowiadające:</strong> now, right now, at the moment, today, tonight, this week, tomorrow.</p>
+      </div>
+    </div>
+
+    <h3>Porównaj te pary</h3>
+    <table class="verb-table">
+      <tr><th>Regularnie / fakt</th><th>Teraz / plan</th></tr>
+      <tr><td>I <strong>go</strong> to the gym after work.</td><td>I am <strong>going</strong> to the gym now.</td></tr>
+      <tr><td>I <strong>work</strong> night shifts.</td><td>I am <strong>working</strong> tonight.</td></tr>
+      <tr><td>I <strong>study</strong> English every Wednesday.</td><td>I am <strong>studying</strong> English now.</td></tr>
+      <tr><td>I <strong>eat</strong> chicken for lunch.</td><td>I am <strong>eating</strong> chicken now.</td></tr>
+      <tr><td>I <strong>drive</strong> to work.</td><td>I am <strong>driving</strong> to work now.</td></tr>
+      <tr><td>I <strong>watch</strong> TV in the evening.</td><td>I am <strong>watching</strong> TV at the moment.</td></tr>
+      <tr><td>I <strong>train</strong> three times a week.</td><td>I am <strong>training</strong> now.</td></tr>
+      <tr><td>I <strong>meet</strong> my team every morning.</td><td>I am <strong>meeting</strong> my manager at 2 p.m.</td></tr>
+    </table>
+
+    <h3 style="margin-top:18px">A co z „I am living”?</h3>
+    <div class="rule-box">
+      <strong>I live in Wakefield.</strong> = to jest mój normalny, stały fakt.<br>
+      <strong>I am living with my brother this month.</strong> = sytuacja tymczasowa.<br>
+      <strong>I have lived in the UK for 11 years.</strong> = zaczęło się w przeszłości i trwa do teraz.
+    </div>
+
+    <h3>Szybka reguła do zapamiętania</h3>
+    <div class="rule-box">
+      <strong>EVERY / USUALLY / OFTEN → I go / I work / I study</strong><br>
+      <strong>NOW / TODAY / TONIGHT / AT THE MOMENT → I am going / I am working / I am studying</strong><br>
+      <strong>YESTERDAY / LAST WEEK → I went / I worked / I studied</strong><br>
+      <strong>FOR / SINCE + do teraz → I have lived / I have worked / I have studied</strong>
+    </div>
+
+    <h3>Mini Practice: I go czy I am going?</h3>
+    <form id="goVsGoingPractice"></form>
+    <div class="row">
+      <button type="button" class="btn secondary" id="newGoVsGoing">Nowy zestaw</button>
+      <button type="button" class="btn" id="checkGoVsGoing">Sprawdź wszystko</button>
+    </div>
+    <div id="goVsGoingResult" class="result">Wybierz poprawną formę. Program sprawdzi Ci ją od razu.</div>
+
+<h3>Najważniejsza zasada: po DID używamy podstawowej formy</h3>
+    <div class="rule-box">
+      ✅ <strong>Did you go</strong> to work?<br>
+      ❌ Did you <strong>went</strong> to work?<br><br>
+      ✅ <strong>Did you use to</strong> play football?<br>
+      ❌ Did you <strong>used to</strong> play football?<br><br>
+      ✅ I <strong>didn't go</strong> yesterday.<br>
+      ❌ I didn't <strong>went</strong> yesterday.<br><br>
+      ✅ I <strong>didn't use to</strong> drink coffee.<br>
+      ❌ I didn't <strong>used to</strong> drink coffee.
+    </div>
+
+    <h3>GO — wszystkie najważniejsze formy</h3>
+    <table class="verb-table">
+      <tr><th>Forma</th><th>Kiedy używać</th><th>Przykład</th></tr>
+      <tr><td><strong>go</strong></td><td>Present Simple / po do, did, don't, didn't</td><td>I go to college. / Did you go?</td></tr>
+      <tr><td><strong>goes</strong></td><td>he / she / it w Present Simple</td><td>She goes to college.</td></tr>
+      <tr><td><strong>went</strong></td><td>Past Simple</td><td>I went to college yesterday.</td></tr>
+      <tr><td><strong>am/is/are going</strong></td><td>teraz lub plan</td><td>I am going to college now.</td></tr>
+      <tr><td><strong>used to go</strong></td><td>stary zwyczaj</td><td>I used to go there every Friday.</td></tr>
+    </table>
+
+    <h3 style="margin-top:18px">LIVE — „I live”, „I am living”, „I have lived”</h3>
+    <table class="verb-table">
+      <tr><th>Forma</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td><strong>I live</strong></td><td>To jest mój normalny, stały fakt.</td><td>I live in Wakefield.</td></tr>
+      <tr><td><strong>I am living</strong></td><td>Sytuacja tymczasowa / w tym okresie.</td><td>I am living with my brother for a few weeks.</td></tr>
+      <tr><td><strong>I lived</strong></td><td>Mieszkałem, ale ten okres się zakończył.</td><td>I lived in Poland before I moved to the UK.</td></tr>
+      <tr><td><strong>I have lived</strong></td><td>Zaczęło się w przeszłości i trwa do teraz.</td><td>I have lived in the UK for 11 years.</td></tr>
+      <tr><td><strong>I used to live</strong></td><td>Kiedyś mieszkałem, ale już tam nie mieszkam.</td><td>I used to live in Poland.</td></tr>
+    </table>
+
+    <div class="rule-box">
+      <strong>Ważne dla Ciebie:</strong><br>
+      ❌ I am living in the UK for 11 years.<br>
+      ✅ <strong>I have lived in the UK for 11 years.</strong><br><br>
+      „I am living...” brzmi naturalnie, gdy sytuacja jest tymczasowa, np. <em>I am living with my sister this month.</em>
+    </div>
+
+    <h3>WORK — rutyna, teraz i przeszłość</h3>
+    <table class="verb-table">
+      <tr><td><strong>I work</strong></td><td>I work as a Shift Manager.</td></tr>
+      <tr><td><strong>I am working</strong></td><td>I am working tonight.</td></tr>
+      <tr><td><strong>I worked</strong></td><td>I worked last weekend.</td></tr>
+      <tr><td><strong>I have worked</strong></td><td>I have worked here for three years.</td></tr>
+      <tr><td><strong>I used to work</strong></td><td>I used to work night shifts only.</td></tr>
+    </table>
+
+    <hr>
+
+    <h3>Used to czy Would?</h3>
+    <div class="grid">
+      <div class="c6">
+        <div class="rule-box">
+          <strong>USED TO</strong><br>
+          Możesz użyć do <strong>czynności i stanów</strong>:<br>
+          ✅ I used to play football.<br>
+          ✅ I used to be shy.<br>
+          ✅ I used to live in Poland.
+        </div>
+      </div>
+      <div class="c6">
+        <div class="rule-box">
+          <strong>WOULD</strong><br>
+          Głównie do <strong>powtarzających się czynności</strong>:<br>
+          ✅ When I was a child, I would play outside every day.<br>
+          ❌ I would be shy. <span class="muted">(jako zwykły stan w przeszłości — lepiej used to)</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Budowa poprawnego zdania</h3>
+    <div class="rule-box">
+      <strong>1. Capital letter → 2. Subject → 3. Verb → 4. Extra information → 5. Punctuation</strong><br><br>
+      ✅ <strong>I</strong> <strong>go</strong> to the gym after work<strong>.</strong><br>
+      ✅ <strong>On Wednesday, I am going</strong> to college<strong>.</strong><br>
+      ✅ <strong>Last weekend, I went</strong> to the gym<strong>.</strong><br>
+      ✅ <strong>I have lived</strong> in the UK for 11 years<strong>.</strong>
+    </div>
+
+    <h3>Przyimki i małe słowa, które często robią różnicę</h3>
+    <table class="verb-table">
+      <tr><td><strong>on Wednesday</strong></td><td>dni tygodnia → on</td></tr>
+      <tr><td><strong>at work</strong></td><td>w pracy → at work</td></tr>
+      <tr><td><strong>in Wakefield</strong></td><td>miasto → in</td></tr>
+      <tr><td><strong>in the UK</strong></td><td>państwo/kraj → in</td></tr>
+      <tr><td><strong>go to the gym</strong></td><td>zwykle mówimy „the gym”</td></tr>
+      <tr><td><strong>in my free time</strong></td><td>nie „on my free time”</td></tr>
+      <tr><td><strong>near my house</strong></td><td>near = blisko; nearly = prawie</td></tr>
+    </table>
+
+    <hr>
+
+    <h3>Interactive Form Trainer</h3>
+    <p>Wybierz sytuację, a potem poprawną formę. Program od razu pokaże Ci błąd i wyjaśnienie.</p>
+    <div class="grid">
+      <div class="c4">
+        <label><span class="label">Situation</span>
+          <select id="formSituation">
+            <option value="routine">Routine / regular</option>
+            <option value="now">Now / temporary / arrangement</option>
+            <option value="past">Finished past</option>
+            <option value="pastHabit">Past habit</option>
+            <option value="pastToNow">Started in past and continues now</option>
+          </select>
+        </label>
+      </div>
+      <div class="c4">
+        <label><span class="label">Verb</span>
+          <select id="formVerb">
+            <option value="go">go</option>
+            <option value="live">live</option>
+            <option value="work">work</option>
+            <option value="study">study</option>
+          </select>
+        </label>
+      </div>
+      <div class="c4">
+        <label><span class="label">Your form</span>
+          <select id="formChoice"></select>
+        </label>
+      </div>
+    </div>
+    <div id="formTrainerFeedback" class="live-feedback">Wybierz formę czasownika.</div>
+
+    <hr>
+
+    <h3>Sentence Builder</h3>
+    <p>Zbuduj własne zdanie krok po kroku.</p>
+    <div class="grid">
+      <div class="c4">
+        <label><span class="label">Time</span>
+          <select id="sbTime">
+            <option value="usually">usually / every week</option>
+            <option value="now">now / tonight</option>
+            <option value="yesterday">yesterday / last weekend</option>
+            <option value="usedto">when I was younger</option>
+            <option value="for">for 11 years</option>
+          </select>
+        </label>
+      </div>
+      <div class="c4">
+        <label><span class="label">Verb</span>
+          <select id="sbVerb">
+            <option value="go">go to the gym</option>
+            <option value="work">work</option>
+            <option value="live">live in the UK</option>
+            <option value="study">study English</option>
+          </select>
+        </label>
+      </div>
+      <div class="c4">
+        <label><span class="label">Subject</span>
+          <select id="sbSubject">
+            <option value="I">I</option>
+            <option value="he">He</option>
+            <option value="she">She</option>
+            <option value="we">We</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div id="sentenceBuilderOutput" class="builder-output">I go to the gym every week.</div>
+    <p class="muted small" id="sentenceBuilderReason"></p>
+
+    <hr>
+
+    <h3>Practice — wybierz poprawne zdanie</h3>
+    <form id="formPractice"></form>
+    <div class="row">
+      <button type="button" class="btn secondary" id="newFormPractice">Nowy zestaw</button>
+      <button type="button" class="btn" id="checkFormPractice">Sprawdź wszystko</button>
+    </div>
+    <div id="formPracticeResult" class="result">Zrób 10 pytań. Każda odpowiedź jest też sprawdzana od razu.</div>
+  </section>
+
+
+
+  <section id="dictionary" class="panel card">
+    <h2>Word Dictionary — najważniejsze słowa Entry 3</h2>
+    <p>Ta sekcja tłumaczy pojedyncze słowa i formy, które musisz rozpoznawać podczas pisania i na egzaminie. Masz tutaj znaczenie po polsku, kiedy używać danej formy, przykład i odsłuch.</p>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <h3>GO family</h3>
+        <p><strong>go</strong> = iść / jechać → teraz jako rutyna lub po <em>do/did</em></p>
+        <p><strong>went</strong> = poszedłem / pojechałem → Past Simple</p>
+        <p><strong>gone</strong> = poszedł / wyjechał → po have/has</p>
+        <p><strong>going</strong> = idąc / jadąc → po am/is/are</p>
+      </div>
+      <div class="compare-card">
+        <h3>USE / USED TO</h3>
+        <p><strong>use</strong> = używać</p>
+        <p><strong>used</strong> = używał / użyty</p>
+        <p><strong>used to</strong> = kiedyś robiłem</p>
+        <p><strong>Did you use to...?</strong> — po DID wracamy do <strong>use</strong>.</p>
+      </div>
+      <div class="compare-card">
+        <h3>WOULD</h3>
+        <p><strong>would</strong> = by / zrobiłbym; także dawny powtarzalny zwyczaj</p>
+        <p><strong>wouldn't</strong> = would not = nie zrobiłbym / nie chciał</p>
+        <p>When I was a child, I <strong>would play</strong> outside every day.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="dict-toolbar">
+      <input id="dictSearch" type="text" placeholder="Search: would, went, because, journey...">
+      <select id="dictCategory">
+        <option value="all">All categories</option>
+        <option value="grammar">Grammar words</option>
+        <option value="verbs">Important verbs</option>
+        <option value="time">Time words</option>
+        <option value="linking">Linking words</option>
+        <option value="travel">Travel</option>
+        <option value="work">Work / college</option>
+        <option value="weather">Weather / idioms</option>
+      </select>
+      <select id="dictSort">
+        <option value="az">A–Z</option>
+        <option value="category">By category</option>
+      </select>
+    </div>
+
+    <div class="row" style="margin-bottom:12px">
+      <span class="badge"><span id="dictCount">0</span> words / expressions</span>
+      <button class="btn secondary" id="randomWord">Losowe słowo</button>
+      <button class="btn secondary" id="dictQuizStart">Mini quiz 10 pytań</button>
+    </div>
+
+    <div id="dictRandomCard" class="hidden live-feedback"></div>
+    <div id="dictList" class="dict-list"></div>
+
+    <hr>
+    <h3>Mini Quiz — znaczenie słów</h3>
+    <div id="dictQuiz" class="dict-quiz-box">Kliknij „Mini quiz 10 pytań”.</div>
+    <div id="dictQuizResult" class="result">Wynik pojawi się tutaj.</div>
+  </section>
+
+  <section id="daily" class="panel card">
+    <h2>Daily Challenge — trening dopasowany do błędów</h2>
+    <p>Codzienny zestaw 12 pytań. Program częściej wybiera tematy, z którymi masz problem. Przy pierwszym błędzie dostajesz <strong>wskazówkę</strong>, a dopiero przy drugim pełną odpowiedź.</p>
+    <div class="row">
+      <button class="btn" id="startDailyChallenge">Nowy Daily Challenge</button>
+      <span class="badge" id="dailyChallengeState">12 pytań</span>
+    </div>
+    <div id="dailyChallengeArea"></div>
+    <div id="dailyChallengeResult" class="result">Kliknij „Nowy Daily Challenge”.</div>
+  </section>
+
+  <section id="listening" class="panel card">
+    <h2>Listening & Dictation</h2>
+    <p>Usłyszysz zdanie po angielsku. Napisz dokładnie to, co słyszysz. To jednocześnie ćwiczy <strong>listening, spelling, grammar i punctuation</strong>.</p>
+    <div class="listen-box">
+      <div class="listen-sentence" id="dictationPrompt">Sentence hidden 🔒</div>
+      <div class="row" style="justify-content:center;margin-top:10px">
+        <button class="btn" id="playDictation">🔊 Odtwórz</button>
+        <button class="btn secondary" id="slowerDictation">🐢 Wolniej</button>
+        <button class="btn secondary" id="newDictation">Nowe zdanie</button>
+      </div>
+    </div>
+    <textarea id="dictationInput" lang="en-GB" spellcheck="false" placeholder="Type exactly what you hear..." style="margin-top:12px"></textarea>
+    <div class="row">
+      <button class="btn" id="checkDictation">Sprawdź</button>
+      <button class="btn secondary" id="showDictationAnswer">Pokaż odpowiedź</button>
+    </div>
+    <div id="dictationFeedback" class="result">Spróbuj najpierw bez podglądania odpowiedzi.</div>
+    <hr>
+    <h3>Listening score</h3>
+    <div class="statrow">
+      <div class="stat"><b id="dictationCorrect">0</b><span class="muted small">correct</span></div>
+      <div class="stat"><b id="dictationAttemptsStat">0</b><span class="muted small">attempts</span></div>
+      <div class="stat"><b id="dictationAccuracy">0%</b><span class="muted small">accuracy</span></div>
+      <div class="stat"><b id="dictationStreak">0</b><span class="muted small">streak</span></div>
+    </div>
+  </section>
+
+  <section id="transformations" class="panel card">
+    <h2>Sentence Transformations</h2>
+    <p>To bardzo dobry trening form czasownika. Musisz sam napisać całe zdanie, a nie tylko kliknąć odpowiedź.</p>
+    <div id="transformTask" class="example">Kliknij „Nowe zadanie”.</div>
+    <input type="text" id="transformInput" lang="en-GB" spellcheck="true" placeholder="Write the full sentence" style="margin-top:12px">
+    <div class="row" style="margin-top:10px">
+      <button class="btn" id="checkTransformation">Sprawdź</button>
+      <button class="btn secondary" id="newTransformation">Nowe zadanie</button>
+      <button class="btn secondary" id="transformationHint">Wskazówka</button>
+    </div>
+    <div id="transformFeedback" class="result">Masz dwie próby zanim zobaczysz pełną odpowiedź.</div>
+    <hr>
+    <h3>Przykłady zmian</h3>
+    <table class="table">
+      <tr><td>I go to the gym every week.</td><td>Yesterday → <strong>I went to the gym yesterday.</strong></td></tr>
+      <tr><td>I work nights.</td><td>Tonight → <strong>I am working tonight.</strong></td></tr>
+      <tr><td>I live in the UK.</td><td>for 11 years → <strong>I have lived in the UK for 11 years.</strong></td></tr>
+      <tr><td>I used to play football.</td><td>Question → <strong>Did you use to play football?</strong></td></tr>
+    </table>
+  </section>
+
+  <section id="mastery" class="panel card">
+    <h2>Mastery & Weak Areas</h2>
+    <p>Program liczy wyniki z nowych treningów. Celem jest osiągnięcie co najmniej <strong>80%</strong> w każdym obszarze, a potem utrzymanie wyniku.</p>
+    <div class="ultimate-grid">
+      <div class="u8">
+        <div id="masteryBars"></div>
+      </div>
+      <div class="u4">
+        <div class="focus-card">
+          <h3>Najważniejszy temat</h3>
+          <div id="weakestSkill" class="big-score">—</div>
+          <p id="weakestAdvice" class="muted">Zrób kilka ćwiczeń, aby otrzymać rekomendację.</p>
+          <button class="btn" id="practiceWeakest">Ćwicz najsłabszy temat</button>
+        </div>
+      </div>
+      <div class="u12">
+        <h3>7 ostatnich dni</h3>
+        <div id="activityCalendar"></div>
+      </div>
+      <div class="u12">
+        <h3>Backup postępu</h3>
+        <div class="tool-row">
+          <button class="btn secondary" id="ultimateExport">Eksportuj cały postęp</button>
+          <label class="btn secondary import-label" for="ultimateImport">Importuj backup</label>
+          <input class="hidden-input" id="ultimateImport" type="file" accept=".json,application/json">
+        </div>
+        <p class="muted small">Backup zawiera mastery, streak, błędy, wyniki, writing i review cards.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="spelling" class="panel card">
+    <h2>Spelling Lab</h2>
+    <div class="grid">
+      <div class="c6">
+        <h3>Listen → Hide → Write → Check</h3>
+        <div class="wordbig" id="spellWord">knowledge</div>
+        <div class="row">
+          <button class="btn" id="listenWord">🔊 Listen</button>
+          <button class="btn secondary" id="hideWord">Ukryj</button>
+          <button class="btn secondary" id="nextSpell">Następne</button>
+        </div>
+        <div style="margin-top:12px">
+          <input type="text" id="spellInput" placeholder="Write the word from memory">
+          <div class="row" style="margin-top:10px"><button class="btn" id="checkSpell">Sprawdź</button><span id="spellFeedback"></span></div>
+        </div>
+      </div>
+      <div class="c6">
+        <h3>Entry 3 word bank</h3>
+        <p class="small muted">Program losuje z ponad 100 słów. Te z Twoich zajęć są oznaczone ★.</p>
+        <div id="wordBankPreview"></div>
+      </div>
+    </div>
+    <hr>
+    <h3>Spelling Test — 10 words</h3>
+    <p>Kliknij „Start test”. Usłyszysz słowo. Wpisz je i przejdź dalej.</p>
+    <div class="row"><button class="btn" id="startSpellTest">Start test</button><span id="spellTestStatus" class="muted"></span></div>
+    <div id="spellTestArea" class="hidden" style="margin-top:12px">
+      <button class="btn secondary" id="spellTestListen">🔊 Powtórz słowo</button>
+      <input type="text" id="spellTestInput" placeholder="Type the word" style="margin-top:10px">
+      <button class="btn" id="spellTestNext" style="margin-top:10px">Next</button>
+    </div>
+    <div id="spellTestResult" class="result">Wynik pojawi się tutaj.</div>
+  </section>
+
+  <section id="reading" class="panel card">
+    <h2>Reading Comprehension</h2>
+    <div class="tabs" id="readingTabs">
+      <button data-r="r1" class="active">Text 1</button>
+      <button data-r="r2">Text 2</button>
+      <button data-r="r3">Text 3</button>
+    </div>
+
+    <div class="rsec" id="r-r1">
+      <div class="example">
+        <strong>College notice</strong><br><br>
+        English Entry 3 classes take place every Wednesday from 9:00 a.m. to 12:45 p.m. Students should arrive ten minutes early and bring a notebook, a pen and their course folder. If you cannot attend, contact the college before the lesson. During the final month, students will complete practice assessments to prepare for the exam.
+      </div>
+      <form class="readingForm" data-reading="r1">
+        <div class="question">1. What day are the classes? <select name="q1"><option value=""></option><option>Wednesday</option><option>Thursday</option><option>Friday</option></select></div>
+        <div class="question">2. What time should students arrive? <select name="q2"><option value=""></option><option>8:50 a.m.</option><option>9:00 a.m.</option><option>9:10 a.m.</option></select></div>
+        <div class="question">3. Why will students do practice assessments? <select name="q3"><option value=""></option><option>To prepare for the exam</option><option>To get a job</option><option>To finish early</option></select></div>
+        <button class="btn" type="submit">Sprawdź</button><div class="result quizResult"></div>
+      </form>
+    </div>
+
+    <div class="rsec hidden" id="r-r2">
+      <div class="example">
+        <strong>Travel message</strong><br><br>
+        Hi Anna, our train leaves Leeds at 7:40 on Saturday morning. We should get to the station by 7:15 because we need time to buy coffee and find the correct platform. The journey to Manchester takes just over an hour. When we arrive, let's check in at the hotel first and then walk into the city centre.
+      </div>
+      <form class="readingForm" data-reading="r2">
+        <div class="question">1. What time does the train leave? <select name="q1"><option value=""></option><option>7:15</option><option>7:40</option><option>8:40</option></select></div>
+        <div class="question">2. Why should they arrive early? <select name="q2"><option value=""></option><option>To buy coffee and find the platform</option><option>To meet a teacher</option><option>To catch a bus</option></select></div>
+        <div class="question">3. What will they do first in Manchester? <select name="q3"><option value=""></option><option>Check in at the hotel</option><option>Go shopping</option><option>Take another train</option></select></div>
+        <button class="btn" type="submit">Sprawdź</button><div class="result quizResult"></div>
+      </form>
+    </div>
+
+    <div class="rsec hidden" id="r-r3">
+      <div class="example">
+        <strong>Workplace update</strong><br><br>
+        Production will stop at 2:00 p.m. on Friday for planned cleaning and maintenance. All operators must finish the current product before the shutdown and leave their work areas clean and safe. Engineering will start work at 2:30 p.m. The line is expected to restart at 6:00 p.m., but supervisors should check with Engineering before starting production.
+      </div>
+      <form class="readingForm" data-reading="r3">
+        <div class="question">1. Why will production stop? <select name="q1"><option value=""></option><option>Cleaning and maintenance</option><option>No staff</option><option>No orders</option></select></div>
+        <div class="question">2. When will Engineering start? <select name="q2"><option value=""></option><option>2:00 p.m.</option><option>2:30 p.m.</option><option>6:00 p.m.</option></select></div>
+        <div class="question">3. What must supervisors do before restart? <select name="q3"><option value=""></option><option>Check with Engineering</option><option>Call HR</option><option>Go home</option></select></div>
+        <button class="btn" type="submit">Sprawdź</button><div class="result quizResult"></div>
+      </form>
+    </div>
+  </section>
+
+  <section id="writing" class="panel card">
+    <h2>Writing Exam Practice</h2>
+    <div class="tabs" id="writingTabs">
+      <button data-w="intro" class="active">About me</button>
+      <button data-w="email">Email</button>
+      <button data-w="story">Past event</button>
+      <button data-w="opinion">Opinion</button>
+    </div>
+    <div id="writingPrompt" class="example"></div>
+    <p><strong>Target:</strong> <span id="targetWords">80–100</span> words.</p>
+    <div class="auto-correct-grid">
+      <div>
+        <h3>Twój tekst</h3>
+        <p class="muted small">Spelling jest sprawdzany przez program niezależnie od języka przeglądarki. Czerwone podkreślenie przeglądarki może też działać jako dodatkowa pomoc.</p>
+        <textarea id="writingArea" lang="en-GB" spellcheck="true" autocapitalize="sentences" placeholder="Start writing here..."></textarea>
+        <div class="row">
+          <span>Words: <strong id="wordCount">0</strong></span>
+          <span>Sentences: <strong id="sentenceCount">0</strong></span>
+          <span id="capitalCheck"></span>
+          <span id="punctCheck"></span>
+        </div>
+      </div>
+      <div>
+        <h3>Auto Correct — poprawki na żywo</h3>
+        <div class="row" style="margin-bottom:8px">
+          <span class="issue-count" id="liveIssueCount">0</span>
+          <span class="muted">wykrytych problemów</span>
+        </div>
+        <div id="liveWritingCoach" class="live-feedback">Zacznij pisać. Program będzie od razu pokazywał błędy.</div>
+      </div>
+    </div>
+
+    <div class="auto-correct-grid" style="margin-top:14px">
+      <div>
+        <h3>Poprawiona wersja</h3>
+        <div id="correctedPreview" class="correction-preview">Tutaj pojawi się sugerowana poprawiona wersja Twojego tekstu.</div>
+      </div>
+      <div>
+        <h3>Co dokładnie poprawić</h3>
+        <div id="detailedIssues" class="correction-preview">Błędy będą opisane tutaj.</div>
+      </div>
+    </div>
+    <div class="checklist">
+      <label><input type="checkbox"> I answered every part of the task.</label>
+      <label><input type="checkbox"> I used full sentences.</label>
+      <label><input type="checkbox"> I checked capital letters: I, Monday, Wakefield, Poland.</label>
+      <label><input type="checkbox"> I checked punctuation.</label>
+      <label><input type="checkbox"> I used linking words: and, but, because, so, then, after that.</label>
+      <label><input type="checkbox"> I checked verb tense.</label>
+    </div>
+    <div class="row"><button class="btn" id="analyseWriting">Analizuj tekst</button><button class="btn good" id="useCorrectedVersion">Użyj poprawionej wersji</button><button class="btn secondary" id="saveWriting">Zapisz</button><button class="btn secondary" id="clearWriting">Wyczyść</button></div>
+    <div id="writingAnalysis" class="result">Live Auto Correct sprawdza grammar + spelling podczas pisania. Przykład: <strong>superervisor → supervisor</strong>, <strong>probaly → probably</strong>, <strong>buisness → business</strong>. Pokazuje: GR, SP, CL, P i MW oraz sugerowaną poprawioną wersję całego tekstu.</div>
+    <hr>
+    <h3>Exam Writing Marker</h3>
+    <p class="muted">To jest trener, nie oficjalna ocena egzaminatora. Ma pokazać Ci, co poprawić przed egzaminem.</p>
+    <div class="row">
+      <button class="btn" id="scoreWritingExam">Oceń mój tekst</button>
+      <span id="writingBand" class="badge">Jeszcze nie oceniono</span>
+    </div>
+    <div id="writingRubric" class="rubric-grid" style="margin-top:12px">
+      <div class="rubric-item"><b>-</b>Task completion</div>
+      <div class="rubric-item"><b>-</b>Grammar</div>
+      <div class="rubric-item"><b>-</b>Spelling</div>
+      <div class="rubric-item"><b>-</b>Punctuation & capitals</div>
+      <div class="rubric-item"><b>-</b>Sentence structure</div>
+      <div class="rubric-item"><b>-</b>Vocabulary & linking</div>
+    </div>
+    <div id="writingExamFeedback" class="result">Napisz tekst i kliknij „Oceń mój tekst”.</div>
+
+  </section>
+
+  <section id="vocabulary" class="panel card">
+    <h2>Vocabulary & Phrasal Verbs</h2>
+    <div class="grid">
+      <div class="c6">
+        <h3>Flashcards</h3>
+        <div class="flash" id="flashcard">
+          <div class="front" id="flashFront">journey</div>
+          <div class="back hidden" id="flashBack">podróż / droga z miejsca A do B</div>
+        </div>
+        <div class="row" style="margin-top:10px"><button class="btn secondary" id="flipFlash">Pokaż znaczenie</button><button class="btn" id="nextFlash">Następna</button></div>
+      </div>
+      <div class="c6">
+        <h3>Travel essentials</h3>
+        <p><span class="pill">trip = konkretna podróż</span><span class="pill">journey = droga A→B</span><span class="pill">voyage = długa podróż, często morzem</span><span class="pill">travel = podróżowanie ogólnie</span></p>
+        <p><span class="pill">set off = wyruszyć</span><span class="pill">take off = wystartować</span><span class="pill">check in = zameldować się</span><span class="pill">check out = wymeldować się</span><span class="pill">break down = zepsuć się</span><span class="pill">get around = przemieszczać się</span></p>
+      </div>
+    </div>
+    <hr>
+    <h3>Vocabulary Quiz — 10 pytań</h3>
+    <form id="vocabQuiz"></form>
+    <div class="row"><button class="btn secondary" id="newVocabQuiz">Nowy quiz</button><button class="btn" id="checkVocabQuiz">Sprawdź</button></div>
+    <div id="vocabResult" class="result">Kliknij „Nowy quiz”.</div>
+  </section>
+
+  <section id="corrections" class="panel card">
+    <h2>My Common Mistakes — specjalnie pod Twoje błędy</h2>
+    <table class="table">
+      <tr><th>Wrong</th><th>Better</th><th>Why</th></tr>
+      <tr><td>❌ I am living in UK for 11 years.</td><td>✅ I have lived in the UK for 11 years.</td><td>Present Perfect for a situation from the past until now.</td></tr>
+      <tr><td>❌ I starting work at 6 am.</td><td>✅ I start work at 6 a.m.</td><td>Routine → Present Simple.</td></tr>
+      <tr><td>❌ In last weekend I was at work.</td><td>✅ Last weekend I was at work.</td><td>No “in” before last weekend.</td></tr>
+      <tr><td>❌ After get out from work...</td><td>✅ After I finished work... / After work...</td><td>Use a complete clause or natural phrase.</td></tr>
+      <tr><td>❌ I like walking with dog around the park nearly my house.</td><td>✅ I like walking my dog in the park near my house.</td><td>Natural word order and “near”, not “nearly”.</td></tr>
+      <tr><td>❌ I feeling good.</td><td>✅ I feel good. / I am feeling good.</td><td>You need the correct verb form.</td></tr>
+      <tr><td>❌ We going to coffee shop.</td><td>✅ We are going to a coffee shop.</td><td>Missing “are” and article “a”.</td></tr>
+    </table>
+    <hr>
+    
+    <div class="coach-grid">
+      <div>
+        <h3>Twoje zapisane błędy</h3>
+        <div id="mistakeLog" class="mistake-log live-feedback">Jeszcze brak zapisanych błędów.</div>
+      </div>
+      <div>
+        <h3>Jak czytać oznaczenia</h3>
+        <div class="live-feedback">
+          <div><span class="live-tag tag-sp">SP</span> spelling</div>
+          <div><span class="live-tag tag-gr">GR</span> grammar</div>
+          <div><span class="live-tag tag-p">P</span> punctuation</div>
+          <div><span class="live-tag tag-cl">CL</span> capital letter</div>
+          <div><span class="live-tag tag-mw">MW</span> missing word</div>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <div class="ultimate-grid">
+      <div class="u8">
+        <h3>Spaced Review — wracaj do własnych błędów</h3>
+        <div id="personalReviewCard" class="review-card">
+          <p class="muted">Gdy popełnisz błędy w aplikacji, pojawią się tutaj do ponownego przećwiczenia.</p>
+        </div>
+        <div class="tool-row" style="margin-top:10px">
+          <input type="text" id="personalReviewInput" placeholder="Napisz poprawną wersję" style="flex:1 1 280px">
+          <button class="btn" id="checkPersonalReview">Sprawdź</button>
+          <button class="btn secondary" id="nextPersonalReview">Następny</button>
+        </div>
+        <div id="personalReviewFeedback" class="result">Najlepiej poprawić dane zdanie 2–3 razy bez patrzenia na odpowiedź.</div>
+      </div>
+      <div class="u4">
+        <h3>Review status</h3>
+        <div class="stat"><b id="reviewDueCount">0</b><span class="muted">błędów do powtórki</span></div>
+        <p class="muted small">Po poprawnej odpowiedzi karta wróci później. Po błędzie pojawi się szybciej.</p>
+      </div>
+    </div>
+    <hr>
+<h3>Correction Drill</h3>
+    <p id="corrSentence" class="example"></p>
+    <input type="text" id="corrInput" placeholder="Rewrite the sentence correctly">
+    <div class="row" style="margin-top:10px"><button class="btn" id="checkCorrection">Sprawdź</button><button class="btn secondary" id="nextCorrection">Następne</button></div>
+    <div id="corrResult" class="result">Popraw całe zdanie.</div>
+  </section>
+
+  <section id="mock" class="panel card">
+    <h2>Mock Exam — Entry 3</h2>
+    <p>20 pytań. Grammar + spelling + vocabulary + reading. Czas: <strong>30 minut</strong>. Writing jest osobnym zadaniem poniżej.</p>
+    <div class="row">
+      <button class="btn" id="startMock">Start Mock Exam</button>
+      <button class="btn bad hidden" id="finishMock">Finish & Mark</button>
+      <span class="timer" id="mockTimer">30:00</span>
+    </div>
+    <div id="mockArea" style="margin-top:14px"></div>
+    <div id="mockResult" class="result">Po zakończeniu zobaczysz wynik oraz tematy do powtórki.</div>
+    <hr>
+    <h3>Writing task — 15–20 minutes</h3>
+    <div class="example"><strong>Task:</strong> Write an email to your tutor. Explain why you cannot attend one lesson, say when you can return, and ask what work you should complete at home. Write about 80–100 words.</div>
+    <p class="muted">Zrób to w module Writing i sprawdź: task completion, full sentences, capitals, punctuation, verb tense, linking words.</p>
+  </section>
+</div>
+
+<script>
+(() => {
+  const store = {
+    get(k,d){ try{return JSON.parse(localStorage.getItem(k)) ?? d}catch{return d}},
+    set(k,v){ localStorage.setItem(k,JSON.stringify(v)) }
+  };
+  let stats = store.get("e3_stats",{sessions:0,quizzes:0,bestMock:0,spellCorrect:0});
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+
+  // ---------- LIVE ERROR COACH ----------
+  function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
+  function addMistake(type, wrong, correct, reason){
+    const log=store.get("e3_mistakes",[]);
+    const item={type,wrong,correct,reason,time:new Date().toISOString()};
+    log.unshift(item);
+    store.set("e3_mistakes",log.slice(0,60));
+    renderMistakes();
+  }
+  function renderMistakes(){
+    const box=$("#mistakeLog"); if(!box) return;
+    const log=store.get("e3_mistakes",[]);
+    if(!log.length){box.textContent="Jeszcze brak zapisanych błędów.";return}
+    box.innerHTML=log.slice(0,20).map(x=>`<div class="mistake-item"><span class="live-tag tag-${x.type.toLowerCase()}">${x.type}</span><strong>${esc(x.wrong)}</strong><br>→ ${esc(x.correct)}<br><span class="muted small">${esc(x.reason)}</span></div>`).join("");
+  }
+  renderMistakes();
+
+  function setInstantFeedback(select, correct, reason, type="GR"){
+    const parent=select.closest(".question");
+    let fb=parent.querySelector(".live-feedback");
+    if(!fb){fb=document.createElement("div");fb.className="live-feedback";parent.appendChild(fb)}
+    const val=select.value;
+    select.classList.remove("inline-ok","inline-bad");
+    if(!val){fb.innerHTML="Wybierz odpowiedź.";return}
+    if(val===correct){
+      select.classList.add("inline-ok");
+      fb.className="live-feedback good";
+      fb.innerHTML=`<span class="ok">✓ Correct</span> — ${esc(reason)}`;
+    }else{
+      select.classList.add("inline-bad");
+      fb.className="live-feedback bad";
+      fb.innerHTML=`<span class="live-tag tag-${type.toLowerCase()}">${type}</span><span class="no">Błąd:</span> wybrałeś <strong>${esc(val)}</strong>.<br>Poprawnie: <strong>${esc(correct)}</strong>.<br><span class="muted">${esc(reason)}</span>`;
+      addMistake(type,val,correct,reason);
+    }
+  }
+
+  function diffWords(user, correct){
+    const a=user.trim().split(/\s+/), b=correct.trim().split(/\s+/);
+    const n=Math.max(a.length,b.length), out=[];
+    for(let i=0;i<n;i++){
+      if(a[i]===b[i]) out.push(`<span class="same">${esc(a[i]||"")}</span>`);
+      else if(a[i] && b[i]) out.push(`<span class="wrong">${esc(a[i])}</span><span class="missing">→${esc(b[i])}</span>`);
+      else if(!a[i] && b[i]) out.push(`<span class="missing">+${esc(b[i])}</span>`);
+      else if(a[i] && !b[i]) out.push(`<span class="wrong">${esc(a[i])}</span>`);
+    }
+    return out.join(" ");
+  }
+
+
+  let lastCorrectedText="";
+
+  const extraPhraseRules=[
+    {type:"GR",pattern:/\bI living in (the )?UK around (\d+) years\b/gi,repl:"I have lived in the UK for around $2 years",why:'Jeśli okres zaczął się w przeszłości i trwa do teraz, użyj Present Perfect: have lived + for.'},
+    {type:"GR",pattern:/\bI living in (the )?UK for around (\d+) years\b/gi,repl:"I have lived in the UK for around $2 years",why:'Brakuje "have" i poprawnej formy "lived".'},
+    {type:"GR",pattern:/\bI living in (the )?UK for (\d+) years\b/gi,repl:"I have lived in the UK for $2 years",why:'Dla okresu trwającego do teraz: I have lived ... for ... years.'},
+    {type:"GR",pattern:/\bI living in (the )?UK\b/gi,repl:"I live in the UK",why:'Jeśli mówisz o stałym miejscu zamieszkania, użyj Present Simple: I live.'},
+    {type:"MW",pattern:/\bI work as (supervisor|manager|shift manager|worker|operator|engineer|teacher|student)\b/gi,repl:"I work as a $1",why:'Po "work as" przed pojedynczym zawodem/rolą zwykle używamy "a".'}
+  ];
+
+  const phraseRules=[
+    {type:"GR",pattern:/\bI am go\b/gi,repl:"I am going",why:'Po "am" używamy czasownika z -ing: I am going.'},
+    {type:"GR",pattern:/\bI am work\b/gi,repl:"I am working",why:'Po "am" używamy -ing: I am working.'},
+    {type:"GR",pattern:/\bI am study\b/gi,repl:"I am studying",why:'Po "am" używamy -ing: I am studying.'},
+    {type:"GR",pattern:/\bI am live\b/gi,repl:"I am living",why:'Po "am" używamy -ing: I am living.'},
+    {type:"GR",pattern:/\bI am living in (the )?UK for ([^.!?]+)/gi,repl:"I have lived in the UK for $2",why:'Dla okresu od przeszłości do teraz użyj Present Perfect.'},
+    {type:"GR",pattern:/\bI am living in (the )?UK since ([^.!?]+)/gi,repl:"I have lived in the UK since $2",why:'Dla sytuacji od przeszłości do teraz użyj Present Perfect.'},
+    {type:"GR",pattern:/\bI starting\b/gi,repl:"I start",why:'Do rutyny użyj Present Simple: I start.'},
+    {type:"GR",pattern:/\bI working as\b/gi,repl:"I work as",why:'Jeśli opisujesz swój zawód, użyj Present Simple: I work as...'},
+    {type:"GR",pattern:/\bI feeling\b/gi,repl:"I feel",why:'Brakuje poprawnej formy czasownika: I feel / I am feeling.'},
+    {type:"GR",pattern:/\bWe going\b/gi,repl:"We are going",why:'Brakuje czasownika pomocniczego "are".'},
+    {type:"GR",pattern:/\bHe going\b/gi,repl:"He is going",why:'Brakuje "is".'},
+    {type:"GR",pattern:/\bShe going\b/gi,repl:"She is going",why:'Brakuje "is".'},
+    {type:"GR",pattern:/\bDid you went\b/gi,repl:"Did you go",why:'Po "did" używamy podstawowej formy: go.'},
+    {type:"GR",pattern:/\bDid you used to\b/gi,repl:"Did you use to",why:'Po "did" używamy formy podstawowej: use to.'},
+    {type:"GR",pattern:/\bdidn't went\b/gi,repl:"didn't go",why:'Po "didn’t" używamy podstawowej formy.'},
+    {type:"GR",pattern:/\bdidn't used to\b/gi,repl:"didn't use to",why:'Po "didn’t" używamy "use to".'},
+    {type:"GR",pattern:/\bIn last weekend\b/gi,repl:"Last weekend",why:'Nie używamy "in" przed "last weekend".'},
+    {type:"GR",pattern:/\bIn last week\b/gi,repl:"Last week",why:'Nie używamy "in" przed "last week".'},
+    {type:"GR",pattern:/\bon yesterday\b/gi,repl:"yesterday",why:'Przed "yesterday" nie używamy "on".'},
+    {type:"GR",pattern:/\bin Wednesday\b/gi,repl:"on Wednesday",why:'Dni tygodnia: on Wednesday.'},
+    {type:"GR",pattern:/\bat Wednesday\b/gi,repl:"on Wednesday",why:'Dni tygodnia: on Wednesday.'},
+    {type:"GR",pattern:/\bnearly my house\b/gi,repl:"near my house",why:'"Near" = blisko. "Nearly" = prawie.'},
+    {type:"MW",pattern:/\bgoing to coffee shop\b/gi,repl:"going to a coffee shop",why:'Przed pojedynczym rzeczownikiem policzalnym potrzebujesz "a".'},
+    {type:"MW",pattern:/\bgo to gym\b/gi,repl:"go to the gym",why:'Najczęściej mówimy: go to the gym.'},
+    {type:"MW",pattern:/\bgoing to gym\b/gi,repl:"going to the gym",why:'Najczęściej mówimy: going to the gym.'},
+    {type:"GR",pattern:/\bI have (\d+) years\b/gi,repl:"I am $1 years old",why:'Wiek: I am ... years old.'},
+    {type:"GR",pattern:/\bI am ([0-9]+) years\b/gi,repl:"I am $1 years old",why:'Przy wieku dodaj "old".'},
+    {type:"GR",pattern:/\bI live in UK\b/gi,repl:"I live in the UK",why:'Mówimy "the UK".'},
+    {type:"GR",pattern:/\bI work on factory\b/gi,repl:"I work in a factory",why:'Mówimy "in a factory".'},
+    {type:"GR",pattern:/\bI work in factory\b/gi,repl:"I work in a factory",why:'Potrzebny jest article "a".'},
+    {type:"GR",pattern:/\bI like go\b/gi,repl:"I like going",why:'Po "like" często używamy -ing: I like going...'},
+    {type:"GR",pattern:/\bI like to going\b/gi,repl:"I like going",why:'Nie łącz "to" z formą -ing tutaj.'},
+    {type:"SP",pattern:/\bbuisness\b/gi,repl:"business",why:'Poprawna pisownia: business.'},
+    {type:"SP",pattern:/\bprobaly\b/gi,repl:"probably",why:'Poprawna pisownia: probably.'},
+    {type:"SP",pattern:/\bknowlege\b/gi,repl:"knowledge",why:'Poprawna pisownia: knowledge.'},
+    {type:"SP",pattern:/\bWensday\b/g,repl:"Wednesday",why:'Poprawna pisownia: Wednesday.'},
+    {type:"SP",pattern:/\brecieve\b/gi,repl:"receive",why:'Poprawna pisownia: receive.'},
+    {type:"SP",pattern:/\bdefinately\b/gi,repl:"definitely",why:'Poprawna pisownia: definitely.'},
+    {type:"SP",pattern:/\bseperate\b/gi,repl:"separate",why:'Poprawna pisownia: separate.'},
+    {type:"SP",pattern:/\bresponsability\b/gi,repl:"responsibility",why:'Poprawna pisownia: responsibility.'},
+    {type:"SP",pattern:/\bsuperervisor\b/gi,repl:"supervisor",why:'Poprawna pisownia: supervisor.'},
+    {type:"SP",pattern:/\bsupervisorr\b/gi,repl:"supervisor",why:'Poprawna pisownia: supervisor.'}
+  ];
+
+  function preserveInitialCapital(original,replacement){
+    if(!original) return replacement;
+    if(original[0]===original[0].toUpperCase()) return replacement.charAt(0).toUpperCase()+replacement.slice(1);
+    return replacement;
+  }
+
+
+  // ---------- OFFLINE SPELLING ENGINE ----------
+  const spellingWords = new Set(`
+a about above accident achieve across address after afternoon again age ago air all almost along already also although always am an and another answer any anyone anything apartment appointment are around arrive as ask at attend available away
+back bad be because become been before begin beginning behind being believe best better between big birthday book both break bring brother business but buy by
+calendar call came can cannot car care carry change check child children city class clean college colleague come comfortable communicate community company complete computer contact continue cook correct could country course customer
+day decision definite department describe did different difficult dinner direction do does dog doing done down drive during
+each early education email emergency employee employer end engineer english enough equipment especially evening ever every everyone everything exam example exercise experience
+family far favourite feel few find fine finish first food for forget form free frequently friday friend from full future
+get give go goes going gone good got grammar great gym
+had happen happened happy has have he health hear help her here him his holiday home hospital hotel hour house how however
+i if important in information into is it its
+job journey just
+keep kind know knowledge
+language last late learn learning leave left lesson life like line listen live lived lives living long look lot lunch
+made make manager many may me mean meet meeting message might minute monday month more morning most mother move much must my
+name near necessary need never new next nice night no normally not now number
+of off often old on once one only operator or other our out over own
+particular people person place plan play please poland possible practice prepare present probably problem production punctuation
+question
+read ready really receive remember restaurant return right role routine
+said same saturday say school second see sentence september she shift should simple since sister so some sometimes speak spelling start station stay still stop student study studying supervisor sunday sure
+take talk teacher team tell than thank that the their them then there these they thing think this those through thursday time to today together tomorrow too training transport travel trip tuesday turn two
+uk under unfortunately up us use used usually
+very vocabulary
+wait walk want was watch way we wednesday week weekend well went were what when where which while who why will with word work worked worker working would write writing written
+year years yes yesterday you young your
+`.trim().split(/\s+/).map(x=>x.toLowerCase()));
+
+  // Extra Entry 3 / work / travel words and common inflections.
+  `accommodation arrangement attendance communicate communicated communicating communication definitely separate responsibility maintenance passenger platform voyage breeze weather fog cloudy sunny rainy travelling traveled travelled travel travelled journeys trips flights airport railway motorway helicopter taxi boat plane hostel campsite beach route tourism tourists ancient Mediterranean holidaymaker
+  started starting starts finished finishing finishes studied studies studying worked works working lived lives living went gone going goes used using plays played playing drives drove driven driving watches watched watching meets met meeting eats ate eaten eating feels felt feeling
+  supervisor supervisors shiftmanager operator operators palletiser engineer engineers factory factories colleague colleagues college colleges
+  Wakefield Gabriel`.trim().split(/\s+/).forEach(w=>spellingWords.add(w.toLowerCase()));
+
+  const spellingIgnore = new Set(["gb","am","pm"]);
+  const knownNames = new Set(["gabriel","wakefield","poland","uk"]);
+
+  function levenshtein(a,b){
+    a=a.toLowerCase(); b=b.toLowerCase();
+    const prev=Array.from({length:b.length+1},(_,i)=>i);
+    for(let i=1;i<=a.length;i++){
+      const cur=[i];
+      for(let j=1;j<=b.length;j++){
+        const cost=a[i-1]===b[j-1]?0:1;
+        cur[j]=Math.min(cur[j-1]+1,prev[j]+1,prev[j-1]+cost);
+      }
+      for(let j=0;j<cur.length;j++) prev[j]=cur[j];
+    }
+    return prev[b.length];
+  }
+
+  function bestSpellingSuggestion(word){
+    const w=word.toLowerCase();
+    if(w.length<3 || spellingWords.has(w) || spellingIgnore.has(w) || knownNames.has(w)) return null;
+    let best=null,bestD=999;
+    const first=w[0];
+    for(const cand of spellingWords){
+      if(Math.abs(cand.length-w.length)>3) continue;
+      if(cand[0]!==first && w.length>4) continue;
+      const d=levenshtein(w,cand);
+      if(d<bestD){bestD=d;best=cand}
+      if(bestD===1) break;
+    }
+    const threshold = w.length<=4 ? 1 : w.length<=7 ? 2 : 3;
+    if(best && bestD<=threshold) return {word:best,distance:bestD};
+    return null;
+  }
+
+  function spellingCheck(text){
+    const issues=[];
+    const seen=new Set();
+    const rx=/\b[A-Za-z][A-Za-z'-]*\b/g;
+    let m;
+    while((m=rx.exec(text))!==null){
+      const original=m[0];
+      const lower=original.toLowerCase();
+      if(spellingWords.has(lower) || spellingIgnore.has(lower) || knownNames.has(lower)) continue;
+      // Ignore a likely proper name if capitalized and not sentence-initial-ish.
+      if(/^[A-Z][a-z]+$/.test(original) && m.index>0) continue;
+      const sug=bestSpellingSuggestion(original);
+      if(sug){
+        const corrected = /^[A-Z]/.test(original) ? sug.word.charAt(0).toUpperCase()+sug.word.slice(1) : sug.word;
+        const key=lower+"|"+sug.word;
+        if(!seen.has(key)){
+          seen.add(key);
+          issues.push({
+            type:"SP",
+            wrong:original,
+            correct:corrected,
+            why:`Spelling: prawdopodobnie chodzi o "${corrected}".`
+          });
+        }
+      }
+    }
+    return issues;
+  }
+
+  function applySpellingCorrections(text,issues){
+    let out=text;
+    // Longest first prevents small replacements inside longer words.
+    const sorted=[...issues].sort((a,b)=>b.wrong.length-a.wrong.length);
+    for(const x of sorted){
+      const safe=x.wrong.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+      out=out.replace(new RegExp(`\\b${safe}\\b`,"g"),x.correct);
+    }
+    return out;
+  }
+
+  function advancedAutoCorrect(text){
+    let corrected=text;
+    const issues=[];
+    const spellIssues=spellingCheck(corrected);
+    spellIssues.forEach(x=>issues.push(x));
+    corrected=applySpellingCorrections(corrected,spellIssues);
+
+    for(const rule of [...extraPhraseRules,...phraseRules]){
+      corrected=corrected.replace(rule.pattern,(match,...args)=>{
+        let replacement=rule.repl;
+        // Handle $1, $2 style captures ourselves because callback replacement is manual.
+        const groups=args.slice(0,-2);
+        replacement=replacement.replace(/\$(\d+)/g,(_,n)=>groups[Number(n)-1] ?? "");
+        replacement=preserveInitialCapital(match,replacement);
+        issues.push({type:rule.type,wrong:match,correct:replacement,why:rule.why});
+        return replacement;
+      });
+    }
+
+    // Capitalize standalone "i"
+    corrected=corrected.replace(/\bi\b/g, m=>{
+      issues.push({type:"CL",wrong:"i",correct:"I",why:'Zaimek "I" zawsze piszemy wielką literą.'});
+      return "I";
+    });
+
+    // Sentence-start capitals
+    corrected=corrected.replace(/(^|[.!?]\s+)([a-z])/g,(m,prefix,ch)=>{
+      const fixed=prefix+ch.toUpperCase();
+      issues.push({type:"CL",wrong:m,correct:fixed,why:"Każde zdanie zaczyna się wielką literą."});
+      return fixed;
+    });
+
+    // Common proper nouns / days
+    const proper=[
+      ["wakefield","Wakefield"],["poland","Poland"],["english","English"],["monday","Monday"],
+      ["tuesday","Tuesday"],["wednesday","Wednesday"],["thursday","Thursday"],["friday","Friday"],
+      ["saturday","Saturday"],["sunday","Sunday"],["uk","UK"]
+    ];
+    for(const [low,cap] of proper){
+      const rx=new RegExp(`\\b${low}\\b`,"g");
+      corrected=corrected.replace(rx,m=>{
+        if(m===cap) return m;
+        issues.push({type:"CL",wrong:m,correct:cap,why:`Nazwy własne / dni tygodnia piszemy wielką literą: ${cap}.`});
+        return cap;
+      });
+    }
+
+    // Normalize spacing before punctuation
+    corrected=corrected.replace(/\s+([,.!?])/g,(m,p)=>{
+      issues.push({type:"P",wrong:m,correct:p,why:"Nie stawiamy spacji przed znakiem interpunkcyjnym."});
+      return p;
+    });
+    corrected=corrected.replace(/([,.!?])([A-Za-z])/g,(m,p,ch)=>{
+      issues.push({type:"P",wrong:m,correct:`${p} ${ch}`,why:"Po znaku interpunkcyjnym dodaj spację."});
+      return `${p} ${ch}`;
+    });
+
+    // Add final punctuation only if it looks like a sentence/text and lacks it.
+    if(corrected.trim().length>12 && !/[.!?]\s*$/.test(corrected)){
+      issues.push({type:"P",wrong:"[koniec tekstu]",correct:".",why:"Tekst powinien kończyć się znakiem interpunkcyjnym."});
+      corrected=corrected.trim()+".";
+    }
+
+    // Missing article after "I am ... manager" if user writes a profession
+    corrected=corrected.replace(/\bI am (shift manager|supervisor|manager|worker|student)\b/gi,(m,job)=>{
+      const rep=`I am a ${job}`;
+      issues.push({type:"MW",wrong:m,correct:rep,why:'Przy zawodzie/roli zwykle potrzebujesz "a".'});
+      return rep;
+    });
+
+    // Deduplicate exact issue records
+    const seen=new Set();
+    const uniq=issues.filter(x=>{
+      const k=x.type+"|"+x.wrong+"|"+x.correct;
+      if(seen.has(k)) return false;
+      seen.add(k); return true;
+    });
+
+    return {corrected,issues:uniq};
+  }
+
+  function renderAdvancedCorrection(){
+    const text=$("#writingArea").value;
+    const result=advancedAutoCorrect(text);
+    lastCorrectedText=result.corrected;
+    $("#liveIssueCount").textContent=result.issues.length;
+
+    if(!text.trim()){
+      $("#correctedPreview").textContent="Tutaj pojawi się sugerowana poprawiona wersja Twojego tekstu.";
+      $("#detailedIssues").textContent="Błędy będą opisane tutaj.";
+      return result;
+    }
+
+    $("#correctedPreview").textContent=result.corrected;
+
+    if(!result.issues.length){
+      $("#detailedIssues").innerHTML='<div class="live-feedback good"><span class="ok">✓ Nie wykryłem typowych błędów Entry 3.</span><br><span class="muted">Sprawdź jeszcze sens, słownictwo i czy odpowiedziałeś na całe zadanie.</span></div>';
+    }else{
+      $("#detailedIssues").innerHTML=result.issues.slice(0,30).map((x,i)=>`
+        <div class="issue-card">
+          <span class="live-tag tag-${x.type.toLowerCase()}">${x.type}</span>
+          <div><span class="wrong-text">❌ ${esc(x.wrong)}</span></div>
+          <div><span class="correct-text">✅ ${esc(x.correct)}</span></div>
+          <div class="why">${esc(x.why)}</div>
+        </div>`).join("");
+    }
+    return result;
+  }
+
+  const writingRules=[
+    {type:"CL",re:/(^|[.!?]\s+)([a-z])/g,msg:"Zdanie powinno zaczynać się wielką literą.",fix:"Start the sentence with a capital letter."},
+    {type:"CL",re:/\bi\b/g,msg:'Zaimek "I" zawsze piszemy wielką literą.',fix:"I"},
+    {type:"GR",re:/\bI am living in (the )?UK for\b/ig,msg:'Dla okresu od przeszłości do teraz użyj Present Perfect.',fix:"I have lived in the UK for ..."},
+    {type:"GR",re:/\bI starting\b/ig,msg:'Brakuje czasownika pomocniczego albo potrzebujesz Present Simple.',fix:"I start ... / I am starting ..."},
+    {type:"GR",re:/\bWe going\b/ig,msg:'Brakuje "are".',fix:"We are going ..."},
+    {type:"GR",re:/\bI feeling\b/ig,msg:'Potrzebujesz "feel" albo "am feeling".',fix:"I feel ... / I am feeling ..."},
+    {type:"GR",re:/\bDid you used to\b/ig,msg:'Po "did" używamy formy podstawowej.',fix:"Did you use to ...?"},
+    {type:"GR",re:/\bdidn't used to\b/ig,msg:'Po "didn’t" używamy "use to".',fix:"didn't use to"},
+    {type:"GR",re:/\bIn last weekend\b/ig,msg:'Nie używamy "in" przed "last weekend".',fix:"Last weekend ..."},
+    {type:"SP",re:/\bbuisness\b/ig,msg:"Błąd spelling.",fix:"business"},
+    {type:"SP",re:/\bprobaly\b/ig,msg:"Błąd spelling.",fix:"probably"},
+    {type:"SP",re:/\bknowlege\b/ig,msg:"Błąd spelling.",fix:"knowledge"},
+    {type:"SP",re:/\bWensday\b/ig,msg:"Błąd spelling.",fix:"Wednesday"},
+    {type:"GR",re:/\bnearly my house\b/ig,msg:'"Nearly" = prawie. Tutaj potrzebujesz "near".',fix:"near my house"},
+    {type:"MW",re:/\bgoing to coffee shop\b/ig,msg:'Przed singular countable noun potrzebujesz "a".',fix:"going to a coffee shop"}
+  ];
+
+  function analyseWritingLive(){
+    const box=$("#liveWritingCoach"); if(!box) return;
+    const advanced=renderAdvancedCorrection();
+    const t=$("#writingArea").value;
+    if(!t.trim()){box.className="live-feedback";box.textContent="Zacznij pisać. Błędy pojawią się tutaj od razu.";return}
+    const found=[];
+    for(const rule of writingRules){
+      rule.re.lastIndex=0;
+      let m;
+      while((m=rule.re.exec(t))!==null){
+        found.push({type:rule.type,wrong:m[0],fix:rule.fix,msg:rule.msg});
+        if(!rule.re.global) break;
+      }
+    }
+    if(t.trim() && !/[.!?]\s*$/.test(t)) found.push({type:"P",wrong:"koniec tekstu",fix:"Dodaj . ? lub !",msg:"Tekst powinien kończyć się znakiem interpunkcyjnym."});
+    const fragments=t.split(/(?<=[.!?])\s+/).filter(Boolean);
+    fragments.forEach(s=>{
+      if(s.length>2 && /^[a-z]/.test(s.trim())) found.push({type:"CL",wrong:s.slice(0,20),fix:"Wielka litera na początku",msg:"Każde zdanie zaczyna się wielką literą."});
+    });
+    if(advanced && advanced.issues && advanced.issues.length){
+      advanced.issues.forEach(x=>found.push({type:x.type,wrong:x.wrong,fix:x.correct,msg:x.why}));
+    }
+    // remove duplicates
+    const uniqueFound=[]; const seenFound=new Set();
+    found.forEach(x=>{const k=x.type+"|"+x.wrong+"|"+x.fix;if(!seenFound.has(k)){seenFound.add(k);uniqueFound.push(x)}});
+    found.length=0; uniqueFound.forEach(x=>found.push(x));
+    if(!found.length){
+      box.className="live-feedback good";
+      box.innerHTML='<span class="ok">✓ Nie wykryłem typowych błędów Entry 3.</span><br><span class="muted">To nie zastępuje pełnej korekty nauczyciela, ale podstawowe rzeczy wyglądają dobrze.</span>';
+      return;
+    }
+    box.className="live-feedback bad";
+    box.innerHTML=found.slice(0,10).map(x=>`<div class="feedback-line"><span class="live-tag tag-${x.type.toLowerCase()}">${x.type}</span><strong>${esc(x.wrong)}</strong><br>→ ${esc(x.fix)}<br><span class="muted small">${esc(x.msg)}</span></div>`).join("");
+  }
+
+
+  function saveStats(){store.set("e3_stats",stats);renderStats()}
+  function renderStats(){
+    $("#sessionsStat").textContent=stats.sessions;
+    $("#quizStat").textContent=stats.quizzes;
+    $("#bestStat").textContent=stats.bestMock+"%";
+    $("#wordsStat").textContent=stats.spellCorrect;
+    const pct=Math.min(100,Math.round((stats.sessions/40)*45 + Math.min(stats.quizzes,20)/20*25 + stats.bestMock/100*30));
+    $("#overallPct").textContent=pct+"%"; $("#overallBar").style.width=pct+"%";
+  } renderStats();
+
+  $$("#mainNav button").forEach(b=>b.addEventListener("click",()=>{
+    $$("#mainNav button").forEach(x=>x.classList.toggle("active",x===b));
+    $$(".panel").forEach(p=>p.classList.toggle("active",p.id===b.dataset.panel));
+  }));
+  $("#finishSession").addEventListener("click",()=>{stats.sessions++;saveStats();alert("Sesja zapisana. Dobra robota.");});
+  $("#resetProgress").addEventListener("click",()=>{if(confirm("Wyzerować cały postęp?")){localStorage.clear();location.reload()}});
+  $("#exportProgress").addEventListener("click",()=>{
+    const data={date:new Date().toISOString(),stats,writing:store.get("e3_writing","")};
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+    const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="english-entry3-progress.json"; a.click(); URL.revokeObjectURL(a.href);
+  });
+
+  // Grammar tabs
+  $$("#grammarTabs button").forEach(b=>b.addEventListener("click",()=>{
+    $$("#grammarTabs button").forEach(x=>x.classList.toggle("active",x===b));
+    $$(".gsec").forEach(s=>s.classList.toggle("hidden",s.id!=="g-"+b.dataset.g));
+  }));
+  const miniAnswers={
+    present:["live","am working","studies"], past:["was","go","work"], perfect:["have","since","for"],
+    usedto:["used to","use to","would"], questions:["Do","Are","Have"]
+  };
+
+  $$(".miniQuiz").forEach(f=>{
+    const key=f.dataset.quiz, ans=miniAnswers[key];
+    [...f.querySelectorAll("select")].forEach((sel,i)=>{
+      sel.addEventListener("change",()=>{
+        const reasons={
+          present:["Present Simple for where you live / routines.","Present Continuous for tonight / arranged current action.","He/she/it takes -s: she studies."],
+          past:["Past of be: I was.","After did, use base form: go.","After didn't, use base form: work."],
+          perfect:["Present Perfect: have + past participle.","Since + starting point.","For + period of time."],
+          usedto:['Past state: "used to be".','After did: "use to".',"Would can describe repeated past actions."],
+          questions:['Present Simple question: Do you...?','Present Continuous question: Are you working...?','Present Perfect experience: Have you ever...?']
+        };
+        setInstantFeedback(sel,ans[i],reasons[key][i],"GR");
+      });
+    });
+  });
+
+  $$(".miniQuiz").forEach(f=>f.addEventListener("submit",e=>{
+    e.preventDefault(); const key=f.dataset.quiz, ans=miniAnswers[key]; let sc=0;
+    ans.forEach((a,i)=>{if(f.elements["q"+(i+1)].value===a)sc++});
+    f.querySelector(".quizResult").innerHTML=`<strong>${sc}/${ans.length}</strong> — ${sc===ans.length?"Excellent.":"Powtórz temat i spróbuj jeszcze raz."}`;
+    stats.quizzes++;saveStats();
+  }));
+
+  const grammarBank=[
+    ["I ___ to the gym three times a week.",["go","am going"],"go","Present Simple for routine."],
+    ["I ___ tonight.",["work","am working"],"am working","Present Continuous for a current arrangement."],
+    ["Yesterday I ___ a night shift.",["worked","work"],"worked","Past Simple."],
+    ["Did you ___ to college yesterday?",["go","went"],"go","After did, use base form."],
+    ["I have lived here ___ 2015.",["since","for"],"since","Since + starting point."],
+    ["I have lived here ___ eleven years.",["for","since"],"for","For + period of time."],
+    ["Did you ___ to play football?",["use","used"],"use","After did, use base form: use to."],
+    ["When I was a child, I ___ play outside every day.",["would","am"],"would","Repeated past action."],
+    ["___ you working tomorrow?",["Are","Do"],"Are","Present Continuous question."],
+    ["___ you ever visited Scotland?",["Have","Did"],"Have","Present Perfect experience."],
+    ["She ___ English every Wednesday.",["studies","is study"],"studies","Third person singular."],
+    ["We ___ at 11:30 tomorrow.",["are meeting","meet yesterday"],"are meeting","Future arrangement."],
+    ["Last weekend I ___ at work.",["was","am"],"was","Past of be."],
+    ["I didn't ___ yesterday.",["work","worked"],"work","After didn't use base form."],
+    ["He ___ nights.",["works","work"],"works","He/she/it + s."]
+  ];
+  let mixedSet=[];
+  function buildMixed(){
+    mixedSet=[...grammarBank].sort(()=>Math.random()-.5).slice(0,10);
+    $("#mixedGrammarForm").innerHTML=mixedSet.map((q,i)=>`<div class="question"><strong>${i+1}.</strong> ${q[0]}<select name="m${i}"><option value="">-- choose --</option>${q[1].map(o=>`<option>${o}</option>`).join("")}</select></div>`).join("");
+    $("#mixedGrammarResult").textContent="Quiz gotowy.";
+    [...$("#mixedGrammarForm").querySelectorAll("select")].forEach((sel,i)=>sel.addEventListener("change",()=>setInstantFeedback(sel,mixedSet[i][2],mixedSet[i][3],"GR")));
+  }
+  $("#newMixedGrammar").addEventListener("click",buildMixed);
+  $("#checkMixedGrammar").addEventListener("click",()=>{
+    if(!mixedSet.length)return;
+    let sc=0, wrong=[];
+    mixedSet.forEach((q,i)=>{const v=$(`#mixedGrammarForm select[name="m${i}"]`).value;if(v===q[2])sc++; else wrong.push(`${i+1}: ${q[3]}`)});
+    $("#mixedGrammarResult").innerHTML=`<strong>${sc}/10</strong>${wrong.length?"<br>"+wrong.join("<br>"):"<br>Excellent!"}`;
+    stats.quizzes++;saveStats();
+  }); buildMixed();
+
+  // Spelling
+  const spellWords=[
+    "achieve","although","business","communicate","definite","education","frequently","knowledge","particular","probably",
+    "Wednesday","because","different","important","beautiful","necessary","separate","successful","environment","experience",
+    "information","available","appointment","address","answer","believe","calendar","comfortable","community","company",
+    "complete","course","customer","decision","describe","develop","difficult","direction","emergency","employee",
+    "employer","enough","example","exercise","February","government","grammar","happened","hospital","journey",
+    "language","learn","library","manager","message","minute","neighbour","opportunity","people","practice",
+    "prepare","question","receive","remember","restaurant","sentence","something","sometimes","station","straight",
+    "student","supervisor","through","tomorrow","transport","usually","weather","whether","workplace","writing",
+    "accommodation","accident","arrangement","attendance","beginning","cancelled","colleague","complaint","conversation","department",
+    "description","electrician","equipment","favourite","holiday","maintenance","passenger","punctuation","qualification","responsibility",
+    "safety","schedule","training","travelling","unfortunately","vocabulary","weekend","worker","working","written"
+  ];
+  const starWords=new Set(["achieve","although","business","communicate","definite","education","frequently","knowledge","particular","probably"]);
+  $("#wordBankPreview").innerHTML=spellWords.slice(0,40).map(w=>`<span class="pill">${starWords.has(w)?"★ ":""}${w}</span>`).join("")+`<span class="pill">+ ${spellWords.length-40} więcej</span>`;
+  let currentSpell="knowledge";
+  function showSpell(){currentSpell=spellWords[Math.floor(Math.random()*spellWords.length)];$("#spellWord").textContent=currentSpell;$("#spellInput").value="";$("#spellFeedback").textContent="";}
+  function speak(txt){if("speechSynthesis"in window){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang="en-GB";u.rate=.85;speechSynthesis.speak(u)}}
+  $("#listenWord").addEventListener("click",()=>speak(currentSpell));
+  $("#hideWord").addEventListener("click",()=>$("#spellWord").textContent="••••••");
+  $("#nextSpell").addEventListener("click",showSpell);
+  $("#checkSpell").addEventListener("click",()=>{
+    const raw=$("#spellInput").value.trim(), v=raw.toLowerCase(), ok=v===currentSpell.toLowerCase();
+    $("#spellWord").textContent=currentSpell;
+    if(ok){
+      $("#spellFeedback").className="ok";
+      $("#spellFeedback").innerHTML="✓ Correct!";
+      $("#spellInput").classList.add("inline-ok");$("#spellInput").classList.remove("inline-bad");
+      stats.spellCorrect++;saveStats();
+    }else{
+      $("#spellInput").classList.add("inline-bad");$("#spellInput").classList.remove("inline-ok");
+      $("#spellFeedback").className="no";
+      $("#spellFeedback").innerHTML=`<div class="live-feedback bad"><span class="live-tag tag-sp">SP</span>Spelling error<br><div class="diff">${diffWords(raw,currentSpell)}</div><br>Poprawnie: <strong>${esc(currentSpell)}</strong></div>`;
+      addMistake("SP",raw||"(blank)",currentSpell,"Spelling: przepisz poprawne słowo 3 razy z pamięci.");
+    }
+  });
+  let spellDebounce=null;
+  $("#spellInput").addEventListener("input",()=>{
+    clearTimeout(spellDebounce);
+    spellDebounce=setTimeout(()=>{
+      const v=$("#spellInput").value.trim();
+      if(v.length>=Math.max(3,currentSpell.length-2) && v.toLowerCase()!==currentSpell.toLowerCase()){
+        $("#spellInput").classList.add("inline-bad");
+      }else{
+        $("#spellInput").classList.remove("inline-bad");
+      }
+    },250);
+  });
+
+  let spellTest=[],spellIdx=0,spellScore=0;
+  $("#startSpellTest").addEventListener("click",()=>{
+    spellTest=[...spellWords].sort(()=>Math.random()-.5).slice(0,10);spellIdx=0;spellScore=0;
+    $("#spellTestArea").classList.remove("hidden");$("#spellTestResult").textContent="Test started.";$("#spellTestStatus").textContent="1 / 10";$("#spellTestInput").value="";speak(spellTest[0]);
+  });
+  $("#spellTestListen").addEventListener("click",()=>spellTest.length&&speak(spellTest[spellIdx]));
+  $("#spellTestNext").addEventListener("click",()=>{
+    if(!spellTest.length)return;
+    if($("#spellTestInput").value.trim().toLowerCase()===spellTest[spellIdx].toLowerCase()){spellScore++;stats.spellCorrect++}
+    spellIdx++;
+    if(spellIdx>=10){$("#spellTestArea").classList.add("hidden");$("#spellTestStatus").textContent="Finished";$("#spellTestResult").innerHTML=`<strong>${spellScore}/10</strong>`;stats.quizzes++;saveStats();spellTest=[];return}
+    $("#spellTestStatus").textContent=`${spellIdx+1} / 10`;$("#spellTestInput").value="";speak(spellTest[spellIdx]);
+  });
+
+  // Reading tabs/forms
+  $$("#readingTabs button").forEach(b=>b.addEventListener("click",()=>{
+    $$("#readingTabs button").forEach(x=>x.classList.toggle("active",x===b));
+    $$(".rsec").forEach(s=>s.classList.toggle("hidden",s.id!=="r-"+b.dataset.r));
+  }));
+  const readAns={r1:["Wednesday","8:50 a.m.","To prepare for the exam"],r2:["7:40","To buy coffee and find the platform","Check in at the hotel"],r3:["Cleaning and maintenance","2:30 p.m.","Check with Engineering"]};
+
+  $$(".readingForm").forEach(f=>{
+    const answers=readAns[f.dataset.reading];
+    [...f.querySelectorAll("select")].forEach((sel,i)=>sel.addEventListener("change",()=>setInstantFeedback(sel,answers[i],"Znajdź tę informację dokładnie w tekście.","GR")));
+  });
+
+  $$(".readingForm").forEach(f=>f.addEventListener("submit",e=>{
+    e.preventDefault();let sc=0;readAns[f.dataset.reading].forEach((a,i)=>{if(f.elements["q"+(i+1)].value===a)sc++});
+    f.querySelector(".quizResult").innerHTML=`<strong>${sc}/3</strong> — ${sc===3?"Excellent reading.":"Read the text again and find the exact detail."}`;
+    stats.quizzes++;saveStats();
+  }));
+
+  // Writing
+  const prompts={
+    intro:["Write 80–100 words introducing yourself. Include: where you live, how long you have lived in the UK, your work/study, hobbies, and why you are learning English.","80–100"],
+    email:["Write an email to your tutor. Explain that you cannot attend one lesson, give the reason, say when you will return, and ask what work you should do at home.","80–100"],
+    story:["Write about a recent weekend or day at work. Say where you were, what happened, who you were with, and how you felt. Use Past Simple.","90–120"],
+    opinion:["Write about whether learning English is important for work and daily life. Give at least two reasons and one example.","90–120"]
+  };
+  function setWritingPrompt(k){$("#writingPrompt").innerHTML="<strong>Task:</strong> "+prompts[k][0];$("#targetWords").textContent=prompts[k][1];store.set("e3_writing_type",k)}
+  $$("#writingTabs button").forEach(b=>b.addEventListener("click",()=>{
+    $$("#writingTabs button").forEach(x=>x.classList.toggle("active",x===b));setWritingPrompt(b.dataset.w)
+  }));
+  const savedType=store.get("e3_writing_type","intro");setWritingPrompt(savedType);
+  $("#writingArea").value=store.get("e3_writing","");
+  function writingStats(){
+    const t=$("#writingArea").value.trim(), words=t?t.split(/\s+/).filter(Boolean):[], sentences=t?(t.match(/[.!?]+(?=\s|$)/g)||[]):[];
+    $("#wordCount").textContent=words.length;$("#sentenceCount").textContent=sentences.length;
+    const starts=(t.match(/(^|[.!?]\s+)[a-z]/g)||[]).length;
+    $("#capitalCheck").textContent=starts?"⚠ Check capital letters":"✓ Capitals look OK";
+    $("#capitalCheck").className=starts?"warntext":"ok";
+    const punct=t && !/[.!?]\s*$/.test(t);
+    $("#punctCheck").textContent=punct?"⚠ Add final punctuation":"✓ Final punctuation";
+    $("#punctCheck").className=punct?"warntext":"ok";
+  }
+  $("#writingArea").addEventListener("input",()=>{writingStats();analyseWritingLive();});
+  writingStats();analyseWritingLive();renderAdvancedCorrection();
+  $("#saveWriting").addEventListener("click",()=>{store.set("e3_writing",$("#writingArea").value);alert("Tekst zapisany.")});
+  $("#clearWriting").addEventListener("click",()=>{if(confirm("Wyczyścić tekst?")){$("#writingArea").value="";writingStats()}});
+  $("#useCorrectedVersion").addEventListener("click",()=>{
+    const result=advancedAutoCorrect($("#writingArea").value);
+    if(!$("#writingArea").value.trim()){alert("Najpierw napisz tekst.");return}
+    $("#writingArea").value=result.corrected;
+    writingStats();
+    analyseWritingLive();
+    store.set("e3_writing",$("#writingArea").value);
+  });
+
+  $("#analyseWriting").addEventListener("click",()=>{
+    renderAdvancedCorrection();
+    const t=$("#writingArea").value.trim();if(!t){$("#writingAnalysis").textContent="Najpierw napisz tekst.";return}
+    const words=t.split(/\s+/).filter(Boolean), notes=[];
+    if(words.length<70)notes.push("Tekst jest krótki — rozwiń odpowiedzi.");
+    if(/\bi\b/.test(t))notes.push('CL: "I" zawsze piszemy wielką literą.');
+    if(/\bi am living in (the )?uk for\b/i.test(t))notes.push('GR: użyj "I have lived in the UK for..."');
+    if(/\bi starting\b/i.test(t))notes.push('GR: użyj "I start..." albo "I am starting..."');
+    if(/\bin last weekend\b/i.test(t))notes.push('GR: mówimy "Last weekend", bez "in".');
+    if(/\bnearly my house\b/i.test(t))notes.push('Vocabulary: "near my house", nie "nearly my house".');
+    if(!/\bbecause\b|\bso\b|\bbut\b|\bthen\b|\bafter that\b/i.test(t))notes.push("Dodaj linking word: because / but / so / then / after that.");
+    const badStarts=(t.match(/(^|[.!?]\s+)[a-z]/g)||[]).length;if(badStarts)notes.push("CL: sprawdź wielkie litery na początku zdań.");
+    if(!/[.!?]\s*$/.test(t))notes.push("P: dodaj kropkę na końcu.");
+    $("#writingAnalysis").innerHTML=notes.length?notes.map(n=>"• "+n).join("<br>"):"✓ Dobra kontrola techniczna. Teraz sprawdź gramatykę i czy odpowiedziałeś na wszystkie części zadania.";
+  });
+
+  // Vocabulary
+  const flashcards=[
+    ["journey","podróż / droga z miejsca A do B"],["trip","konkretna podróż lub wycieczka"],["voyage","długa podróż, często statkiem"],
+    ["set off","wyruszyć"],["take off","wystartować (samolot)"],["check in","zameldować się / odprawić"],["check out","wymeldować się"],
+    ["break down","zepsuć się"],["get around","przemieszczać się"],["breeze","lekki wiatr / coś bardzo łatwego w idiomie"],
+    ["under the weather","czuć się źle / być chorym"],["in a fog","być zdezorientowanym"],["come rain or shine","bez względu na pogodę"],
+    ["accommodation","zakwaterowanie"],["platform","peron"],["delay","opóźnienie"],["commute","dojeżdżać do pracy"],["shift","zmiana w pracy"]
+  ];
+  let fi=0; function renderFlash(){const f=flashcards[fi];$("#flashFront").textContent=f[0];$("#flashBack").textContent=f[1];$("#flashBack").classList.add("hidden");$("#flipFlash").textContent="Pokaż znaczenie"}
+  $("#flipFlash").addEventListener("click",()=>{const b=$("#flashBack");b.classList.toggle("hidden");$("#flipFlash").textContent=b.classList.contains("hidden")?"Pokaż znaczenie":"Ukryj znaczenie"});
+  $("#nextFlash").addEventListener("click",()=>{fi=(fi+1)%flashcards.length;renderFlash()});renderFlash();
+
+  const vocabBank=[
+    ["A long trip by sea is a...",["voyage","journey","breakdown"],"voyage"],
+    ["A plane leaves the ground: it...",["takes off","checks out","breaks down"],"takes off"],
+    ["You leave a hotel: you...",["check out","check in","set off"],"check out"],
+    ["Your car stops working: it...",["breaks down","takes off","gets around"],"breaks down"],
+    ["We ___ at 6 a.m. for our journey.",["set off","check out","take off"],"set off"],
+    ["'Under the weather' means...",["feeling ill","very easy","confused"],"feeling ill"],
+    ["'In a fog' means...",["confused","happy","very fast"],"confused"],
+    ["A business ___ to Paris.",["trip","voyage","weather"],"trip"],
+    ["The ___ from Leeds to Manchester took one hour.",["journey","voyage","business"],"journey"],
+    ["Accommodation means...",["a place to stay","a ticket","a suitcase"],"a place to stay"],
+    ["A light wind is a...",["breeze","fog","storm"],"breeze"],
+    ["The place where you wait for a train is the...",["platform","runway","reception"],"platform"],
+    ["A work period such as 6 a.m.–6 p.m. is a...",["shift","voyage","route"],"shift"],
+    ["A late train has a...",["delay","journey","check-in"],"delay"]
+  ];
+  let vocabSet=[];
+  function buildVocab(){
+    vocabSet=[...vocabBank].sort(()=>Math.random()-.5).slice(0,10);
+    $("#vocabQuiz").innerHTML=vocabSet.map((q,i)=>`<div class="question"><strong>${i+1}.</strong> ${q[0]}<select name="v${i}"><option value="">-- choose --</option>${q[1].map(o=>`<option>${o}</option>`).join("")}</select></div>`).join("");
+    $("#vocabResult").textContent="Quiz gotowy.";
+    [...$("#vocabQuiz").querySelectorAll("select")].forEach((sel,i)=>sel.addEventListener("change",()=>setInstantFeedback(sel,vocabSet[i][2],"Zapamiętaj poprawne znaczenie / użycie.","SP")));
+  }
+  $("#newVocabQuiz").addEventListener("click",buildVocab);
+  $("#checkVocabQuiz").addEventListener("click",()=>{
+    if(!vocabSet.length)return;let sc=0;vocabSet.forEach((q,i)=>{if($(`#vocabQuiz select[name="v${i}"]`).value===q[2])sc++});
+    $("#vocabResult").innerHTML=`<strong>${sc}/10</strong>`;stats.quizzes++;saveStats();
+  });buildVocab();
+
+  // Corrections
+  const corrections=[
+    ["i live in wakefield","I live in Wakefield."],
+    ["I am living in UK for 11 years.","I have lived in the UK for 11 years."],
+    ["I starting work at 6 am.","I start work at 6 a.m."],
+    ["In last weekend I was at work.","Last weekend I was at work."],
+    ["After get out from work I cooked dinner.","After work, I cooked dinner."],
+    ["I like walking with dog around the park nearly my house.","I like walking my dog in the park near my house."],
+    ["I feeling good.","I feel good."],
+    ["We going to coffee shop tomorrow.","We are going to a coffee shop tomorrow."],
+    ["Did you used to play football?","Did you use to play football?"],
+    ["I didn't used to drink coffee.","I didn't use to drink coffee."]
+  ];
+  let ci=0;function renderCorr(){const q=corrections[ci];$("#corrSentence").textContent=q[0];$("#corrInput").value="";$("#corrResult").textContent="Popraw całe zdanie."}
+  $("#nextCorrection").addEventListener("click",()=>{ci=(ci+1)%corrections.length;renderCorr()});
+  function checkCorrectionLive(save=false){
+    const norm=s=>s.trim().replace(/\s+/g," ").replace(/[.?!]+$/,"").toLowerCase();
+    const user=$("#corrInput").value, correct=corrections[ci][1], ok=norm(user)===norm(correct);
+    if(!user.trim()){ $("#corrResult").textContent="Zacznij wpisywać poprawne zdanie."; return; }
+    if(ok){
+      $("#corrInput").classList.add("inline-ok");$("#corrInput").classList.remove("inline-bad");
+      $("#corrResult").innerHTML=`<span class="ok">✓ Correct!</span>`;
+    } else {
+      $("#corrInput").classList.add("inline-bad");$("#corrInput").classList.remove("inline-ok");
+      $("#corrResult").innerHTML=`<span class="live-tag tag-gr">GR</span><span class="no">Jeszcze nie.</span><br><div class="diff">${diffWords(user,correct)}</div><br><span class="muted">Cel: ${esc(correct)}</span>`;
+      if(save) addMistake("GR",user,correct,"Correction drill: porównaj całe zdanie, nie tylko jedno słowo.");
+    }
+  }
+  $("#corrInput").addEventListener("input",()=>checkCorrectionLive(false));
+  $("#checkCorrection").addEventListener("click",()=>checkCorrectionLive(true));
+  renderCorr();
+
+  // Mock exam
+  const mockBank=[
+    {t:"mc",q:"Choose the correct sentence.",o:["I live in Wakefield.","I am live in Wakefield."],a:"I live in Wakefield.",tag:"Present Simple"},
+    {t:"mc",q:"Tonight...",o:["I am working.","I work yesterday."],a:"I am working.",tag:"Present Continuous"},
+    {t:"mc",q:"Did you ___ to play football?",o:["use","used"],a:"use",tag:"Used to"},
+    {t:"mc",q:"I have lived here ___ 2015.",o:["since","for"],a:"since",tag:"Present Perfect"},
+    {t:"mc",q:"I have lived here ___ 11 years.",o:["for","since"],a:"for",tag:"Present Perfect"},
+    {t:"mc",q:"Last weekend I ___ at work.",o:["was","am"],a:"was",tag:"Past Simple"},
+    {t:"mc",q:"Did you ___ yesterday?",o:["work","worked"],a:"work",tag:"Past Simple"},
+    {t:"mc",q:"She ___ English every Wednesday.",o:["studies","study"],a:"studies",tag:"Present Simple"},
+    {t:"mc",q:"A plane...",o:["takes off","checks out"],a:"takes off",tag:"Vocabulary"},
+    {t:"mc",q:"You leave a hotel: you...",o:["check out","check in"],a:"check out",tag:"Vocabulary"},
+    {t:"mc",q:"A long journey by sea is a...",o:["voyage","trip"],a:"voyage",tag:"Vocabulary"},
+    {t:"mc",q:"Under the weather means...",o:["feeling ill","very easy"],a:"feeling ill",tag:"Idioms"},
+    {t:"mc",q:"Which needs a capital letter?",o:["Wednesday","hospital"],a:"Wednesday",tag:"Capital letters"},
+    {t:"mc",q:"Correct spelling:",o:["business","buisness"],a:"business",tag:"Spelling"},
+    {t:"mc",q:"Correct spelling:",o:["knowledge","knowlege"],a:"knowledge",tag:"Spelling"},
+    {t:"mc",q:"Correct spelling:",o:["probably","probaly"],a:"probably",tag:"Spelling"},
+    {t:"mc",q:"Choose the best sentence.",o:["I like walking my dog near my house.","I like walking with dog nearly my house."],a:"I like walking my dog near my house.",tag:"Sentence building"},
+    {t:"mc",q:"Choose the correct question.",o:["Are you working tonight?","Do you working tonight?"],a:"Are you working tonight?",tag:"Questions"},
+    {t:"mc",q:"Choose the correct sentence.",o:["I have lived in the UK for 11 years.","I am living in UK for 11 years."],a:"I have lived in the UK for 11 years.",tag:"Present Perfect"},
+    {t:"mc",q:"Choose the correct sentence.",o:["Last weekend I was at work.","In last weekend I was at work."],a:"Last weekend I was at work.",tag:"Prepositions"},
+    {t:"mc",q:"Which word means a place to stay?",o:["accommodation","platform"],a:"accommodation",tag:"Vocabulary"},
+    {t:"mc",q:"A train is late. It has a...",o:["delay","voyage"],a:"delay",tag:"Vocabulary"},
+    {t:"mc",q:"Correct spelling:",o:["Wednesday","Wensday"],a:"Wednesday",tag:"Spelling"},
+    {t:"mc",q:"Correct form:",o:["I didn't work yesterday.","I didn't worked yesterday."],a:"I didn't work yesterday.",tag:"Past Simple"},
+    {t:"mc",q:"Correct form:",o:["Have you ever visited Scotland?","Did you ever visited Scotland?"],a:"Have you ever visited Scotland?",tag:"Present Perfect"}
+  ];
+  let mockSet=[],mockEnd=null,mockTimerId=null;
+  function tickMock(){
+    if(!mockEnd)return;const sec=Math.max(0,Math.floor((mockEnd-Date.now())/1000)),m=String(Math.floor(sec/60)).padStart(2,"0"),s=String(sec%60).padStart(2,"0");
+    $("#mockTimer").textContent=`${m}:${s}`;if(sec<=0){finishMock();}}
+  function startMock(){
+    mockSet=[...mockBank].sort(()=>Math.random()-.5).slice(0,20);
+    $("#mockArea").innerHTML=mockSet.map((q,i)=>`<div class="question"><strong>${i+1}.</strong> ${q.q}${q.o.map(o=>`<label class="option"><input type="radio" name="mock${i}" value="${o.replace(/"/g,"&quot;")}"> ${o}</label>`).join("")}<div class="live-feedback hidden" id="mockfb${i}"></div></div>`).join("");
+    mockSet.forEach((q,i)=>{
+      document.querySelectorAll(`input[name="mock${i}"]`).forEach(r=>r.addEventListener("change",()=>{
+        const fb=$(`#mockfb${i}`);fb.classList.remove("hidden");
+        if(r.value===q.a){fb.className="live-feedback good";fb.innerHTML='<span class="ok">✓ Correct</span>'}
+        else{fb.className="live-feedback bad";fb.innerHTML=`<span class="live-tag tag-gr">ERR</span>Poprawnie: <strong>${esc(q.a)}</strong><br><span class="muted">Temat: ${esc(q.tag)}</span>`;addMistake("GR",r.value,q.a,`Mock exam — ${q.tag}`)}
+      }))
+    });
+    mockEnd=Date.now()+30*60*1000;clearInterval(mockTimerId);mockTimerId=setInterval(tickMock,1000);tickMock();
+    $("#startMock").classList.add("hidden");$("#finishMock").classList.remove("hidden");$("#mockResult").textContent="Exam in progress...";
+  }
+  function finishMock(){
+    if(!mockSet.length)return;clearInterval(mockTimerId);mockEnd=null;let sc=0;const weak={};
+    mockSet.forEach((q,i)=>{const x=document.querySelector(`input[name="mock${i}"]:checked`);if(x&&x.value===q.a)sc++;else weak[q.tag]=(weak[q.tag]||0)+1});
+    const pct=Math.round(sc/mockSet.length*100);stats.bestMock=Math.max(stats.bestMock,pct);stats.quizzes++;saveStats();
+    const weakTxt=Object.entries(weak).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${k} (${v})`).join(", ")||"none";
+    $("#mockResult").innerHTML=`<strong>${sc}/20 = ${pct}%</strong><br>Topics to review: ${weakTxt}.`;
+    $("#finishMock").classList.add("hidden");$("#startMock").classList.remove("hidden");$("#startMock").textContent="Start another Mock";
+    $("#mockTimer").textContent="30:00";
+  }
+  $("#startMock").addEventListener("click",startMock);$("#finishMock").addEventListener("click",finishMock);
+
+
+  // ---------- SENTENCE BUILDER / VERB FORM TRAINER ----------
+  const verbForms={
+    go:{
+      routine:{I:"go",He:"goes",She:"goes",We:"go"},
+      now:{I:"am going",He:"is going",She:"is going",We:"are going"},
+      past:{I:"went",He:"went",She:"went",We:"went"},
+      pastHabit:{I:"used to go",He:"used to go",She:"used to go",We:"used to go"},
+      pastToNow:{I:"have gone",He:"has gone",She:"has gone",We:"have gone"}
+    },
+    live:{
+      routine:{I:"live",He:"lives",She:"lives",We:"live"},
+      now:{I:"am living",He:"is living",She:"is living",We:"are living"},
+      past:{I:"lived",He:"lived",She:"lived",We:"lived"},
+      pastHabit:{I:"used to live",He:"used to live",She:"used to live",We:"used to live"},
+      pastToNow:{I:"have lived",He:"has lived",She:"has lived",We:"have lived"}
+    },
+    work:{
+      routine:{I:"work",He:"works",She:"works",We:"work"},
+      now:{I:"am working",He:"is working",She:"is working",We:"are working"},
+      past:{I:"worked",He:"worked",She:"worked",We:"worked"},
+      pastHabit:{I:"used to work",He:"used to work",She:"used to work",We:"used to work"},
+      pastToNow:{I:"have worked",He:"has worked",She:"has worked",We:"have worked"}
+    },
+    study:{
+      routine:{I:"study",He:"studies",She:"studies",We:"study"},
+      now:{I:"am studying",He:"is studying",She:"is studying",We:"are studying"},
+      past:{I:"studied",He:"studied",She:"studied",We:"studied"},
+      pastHabit:{I:"used to study",He:"used to study",She:"used to study",We:"used to study"},
+      pastToNow:{I:"have studied",He:"has studied",She:"has studied",We:"have studied"}
+    }
+  };
+
+  const situationReasons={
+    routine:"Present Simple: używamy do rutyny, faktów i regularnych czynności.",
+    now:"Present Continuous: używamy do tego, co dzieje się teraz, jest tymczasowe albo zaplanowane.",
+    past:"Past Simple: zakończona czynność w przeszłości.",
+    pastHabit:"Used to: dawny zwyczaj lub stan, który już nie jest taki sam.",
+    pastToNow:"Present Perfect: coś zaczęło się w przeszłości i ma związek z teraźniejszością."
+  };
+
+  function rebuildFormChoices(){
+    const situation=$("#formSituation").value, verb=$("#formVerb").value;
+    const all=new Set();
+    Object.values(verbForms[verb]).forEach(group=>Object.values(group).forEach(v=>all.add(v)));
+    const correct=verbForms[verb][situation].I;
+    const arr=[correct,...[...all].filter(x=>x!==correct)].slice(0,8);
+    $("#formChoice").innerHTML='<option value="">-- choose --</option>'+arr.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("");
+    $("#formTrainerFeedback").className="live-feedback";
+    $("#formTrainerFeedback").textContent="Wybierz formę czasownika.";
+  }
+  $("#formSituation").addEventListener("change",rebuildFormChoices);
+  $("#formVerb").addEventListener("change",rebuildFormChoices);
+  $("#formChoice").addEventListener("change",()=>{
+    const s=$("#formSituation").value,v=$("#formVerb").value,val=$("#formChoice").value;
+    const correct=verbForms[v][s].I,box=$("#formTrainerFeedback");
+    if(!val){box.textContent="Wybierz formę czasownika.";return}
+    if(val===correct){
+      box.className="live-feedback good";
+      box.innerHTML=`<span class="ok">✓ Correct: I ${esc(correct)}</span><br>${esc(situationReasons[s])}`;
+    }else{
+      box.className="live-feedback bad";
+      box.innerHTML=`<span class="live-tag tag-gr">GR</span><strong>I ${esc(val)}</strong> — w tej sytuacji to zła forma.<br>Poprawnie: <strong>I ${esc(correct)}</strong>.<br>${esc(situationReasons[s])}`;
+      addMistake("GR",`I ${val}`,`I ${correct}`,situationReasons[s]);
+    }
+  });
+  rebuildFormChoices();
+
+  function sentenceBuilder(){
+    const time=$("#sbTime").value,verb=$("#sbVerb").value,sub=$("#sbSubject").value;
+    let sentence="",reason="";
+    const phrase={go:"go to the gym",work:"work",live:"live in the UK",study:"study English"}[verb];
+    if(time==="usually"){
+      const form=verbForms[verb].routine[sub];
+      const rest=verb==="go"?"to the gym every week.":verb==="work"?"every week.":verb==="live"?"in the UK.":"English every week.";
+      sentence=`${sub} ${form} ${rest}`;
+      reason="Present Simple — rutyna lub fakt.";
+    } else if(time==="now"){
+      const form=verbForms[verb].now[sub];
+      const rest=verb==="go"?"to the gym now.":verb==="work"?"tonight.":verb==="live"?"in the UK at the moment.":"English now.";
+      sentence=`${sub} ${form} ${rest}`;
+      reason="Present Continuous — teraz / tymczasowo / plan.";
+    } else if(time==="yesterday"){
+      const form=verbForms[verb].past[sub];
+      const rest=verb==="go"?"to the gym yesterday.":verb==="work"?"last weekend.":verb==="live"?"in London last year.":"English yesterday.";
+      sentence=`${sub} ${form} ${rest}`;
+      reason="Past Simple — zakończona przeszłość.";
+    } else if(time==="usedto"){
+      const form=verbForms[verb].pastHabit[sub];
+      const rest=verb==="go"?"to the gym after work.":verb==="work"?"night shifts.":verb==="live"?"in Poland.":"English at school.";
+      sentence=`${sub} ${form} ${rest}`;
+      reason="Used to — dawny zwyczaj lub stan.";
+    } else {
+      // "for" is most natural with live/work/study; for go give a present perfect example.
+      const form=verbForms[verb].pastToNow[sub];
+      let rest;
+      if(verb==="live") rest="in the UK for 11 years.";
+      else if(verb==="work") rest="here for three years.";
+      else if(verb==="study") rest="English for two months.";
+      else rest="to the gym regularly for two years.";
+      sentence=`${sub} ${form} ${rest}`;
+      reason="Present Perfect — od przeszłości do teraz.";
+    }
+    sentence=sentence.replace(/^he /,"He ").replace(/^she /,"She ").replace(/^we /,"We ");
+    $("#sentenceBuilderOutput").textContent=sentence;
+    $("#sentenceBuilderReason").textContent=reason;
+  }
+  ["#sbTime","#sbVerb","#sbSubject"].forEach(id=>$(id).addEventListener("change",sentenceBuilder));
+  sentenceBuilder();
+
+  const formPracticeBank=[
+    ["I ___ to the gym three times a week.",["go","went","am going"],"go","Routine → Present Simple."],
+    ["I ___ to the gym yesterday.",["go","went","am going"],"went","Yesterday → Past Simple."],
+    ["I ___ to the gym now.",["go","went","am going"],"am going","Now → Present Continuous."],
+    ["I ___ in Wakefield.",["live","am living","lived"],"live","Normal fact → Present Simple."],
+    ["I ___ with my brother for a few weeks while my house is being repaired.",["live","am living","lived"],"am living","Temporary situation → Present Continuous."],
+    ["I ___ in the UK for 11 years.",["am living","have lived","lived"],"have lived","Started in the past and continues now → Present Perfect."],
+    ["Last weekend I ___ at work.",["work","worked","am working"],"worked","Last weekend → Past Simple."],
+    ["I ___ tonight.",["work","worked","am working"],"am working","Tonight as an arrangement → Present Continuous."],
+    ["I ___ as a Shift Manager.",["work","worked yesterday","am work"],"work","Job/fact → Present Simple."],
+    ["Did you ___ to the gym yesterday?",["go","went","going"],"go","After DID use base form."],
+    ["Did you ___ to play football?",["use","used","using"],"use","After DID: use to, not used to."],
+    ["I didn't ___ yesterday.",["go","went","going"],"go","After DIDN'T use base form."],
+    ["I didn't ___ to drink coffee.",["use","used","using"],"use","Didn't use to."],
+    ["I ___ to live in Poland.",["used","use","am used"],"used","Positive past habit/state: used to."],
+    ["When I was a child, I ___ play outside every day.",["would","am","did"],"would","Would can describe repeated past actions."],
+    ["She ___ to college every Wednesday.",["go","goes","is go"],"goes","She/he/it + s in Present Simple."],
+    ["She ___ to college now.",["goes","is going","went"],"is going","Now → Present Continuous."],
+    ["She ___ to college yesterday.",["goes","went","is going"],"went","Yesterday → Past Simple."],
+    ["I have worked here ___ three years.",["for","since","from"],"for","FOR + period of time."],
+    ["I have worked here ___ 2023.",["for","since","during"],"since","SINCE + starting point."]
+  ];
+  let formPracticeSet=[];
+  function buildFormPractice(){
+    formPracticeSet=[...formPracticeBank].sort(()=>Math.random()-.5).slice(0,10);
+    $("#formPractice").innerHTML=formPracticeSet.map((q,i)=>`<div class="question"><strong>${i+1}.</strong> ${q[0]}<select name="fp${i}"><option value="">-- choose --</option>${q[1].map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join("")}</select></div>`).join("");
+    [...$("#formPractice").querySelectorAll("select")].forEach((sel,i)=>sel.addEventListener("change",()=>setInstantFeedback(sel,formPracticeSet[i][2],formPracticeSet[i][3],"GR")));
+    $("#formPracticeResult").textContent="Zestaw gotowy.";
+  }
+  $("#newFormPractice").addEventListener("click",buildFormPractice);
+  $("#checkFormPractice").addEventListener("click",()=>{
+    if(!formPracticeSet.length)return;
+    let score=0,wrong=[];
+    formPracticeSet.forEach((q,i)=>{
+      const val=$(`#formPractice select[name="fp${i}"]`).value;
+      if(val===q[2]) score++; else wrong.push(`${i+1}. ${q[3]}`);
+    });
+    $("#formPracticeResult").innerHTML=`<strong>${score}/10</strong>${wrong.length?`<br>${wrong.join("<br>")}`:"<br>Excellent — wszystkie poprawnie."}`;
+    stats.quizzes++;saveStats();
+  });
+  buildFormPractice();
+
+
+
+  const goVsGoingBank=[
+    ["I ___ to the gym three times a week.",["go","am going"],"go","Three times a week = routine → Present Simple."],
+    ["I ___ to the gym now.",["go","am going"],"am going","Now = happening now → Present Continuous."],
+    ["I ___ to work at 6 a.m. every day.",["go","am going"],"go","Every day = routine."],
+    ["I ___ to work now.",["go","am going"],"am going","Now = happening now."],
+    ["I ___ English every Wednesday.",["study","am studying"],"study","Every Wednesday = regular routine."],
+    ["I ___ English at the moment.",["study","am studying"],"am studying","At the moment = now."],
+    ["I ___ night shifts.",["work","am working"],"work","General work routine."],
+    ["I ___ tonight.",["work","am working"],"am working","Tonight = specific arrangement."],
+    ["I ___ TV every evening.",["watch","am watching"],"watch","Every evening = routine."],
+    ["I ___ TV now.",["watch","am watching"],"am watching","Now = Present Continuous."],
+    ["I ___ to college every Wednesday.",["go","am going"],"go","Every Wednesday = routine."],
+    ["I ___ to college tomorrow.",["go","am going"],"am going","Tomorrow = planned arrangement."],
+    ["I ___ breakfast before work every day.",["eat","am eating"],"eat","Every day = routine."],
+    ["I ___ breakfast now.",["eat","am eating"],"am eating","Now = happening now."],
+    ["I ___ to work.",["drive","am driving"],"drive","General routine/fact."],
+    ["I ___ to work right now.",["drive","am driving"],"am driving","Right now = Present Continuous."],
+    ["I ___ in Wakefield.",["live","am living"],"live","Permanent/normal fact."],
+    ["I ___ with my brother this month.",["live","am living"],"am living","This month = temporary situation."]
+  ];
+  let goVsGoingSet=[];
+  function buildGoVsGoing(){
+    goVsGoingSet=[...goVsGoingBank].sort(()=>Math.random()-.5).slice(0,10);
+    $("#goVsGoingPractice").innerHTML=goVsGoingSet.map((q,i)=>`<div class="question"><strong>${i+1}.</strong> ${q[0]}<select name="gg${i}"><option value="">-- choose --</option>${q[1].map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join("")}</select></div>`).join("");
+    [...$("#goVsGoingPractice").querySelectorAll("select")].forEach((sel,i)=>sel.addEventListener("change",()=>setInstantFeedback(sel,goVsGoingSet[i][2],goVsGoingSet[i][3],"GR")));
+    $("#goVsGoingResult").textContent="Zestaw gotowy.";
+  }
+  $("#newGoVsGoing").addEventListener("click",buildGoVsGoing);
+  $("#checkGoVsGoing").addEventListener("click",()=>{
+    let score=0,wrong=[];
+    goVsGoingSet.forEach((q,i)=>{
+      const val=$(`#goVsGoingPractice select[name="gg${i}"]`).value;
+      if(val===q[2]) score++; else wrong.push(`${i+1}. ${q[3]}`);
+    });
+    $("#goVsGoingResult").innerHTML=`<strong>${score}/10</strong>${wrong.length?`<br>${wrong.join("<br>")}`:"<br>Excellent!"}`;
+    stats.quizzes++;saveStats();
+  });
+  buildGoVsGoing();
+
+
+
+  // ==================== ULTIMATE LEARNING SYSTEM ====================
+  const skillNames={
+    present:"Present Simple / Continuous",
+    past:"Past Simple",
+    perfect:"Present Perfect",
+    usedto:"Used to / Would",
+    spelling:"Spelling",
+    writing:"Writing",
+    vocabulary:"Vocabulary",
+    reading:"Reading / comprehension",
+    questions:"Questions & negatives"
+  };
+
+  function masteryData(){ return store.get("e3_mastery",{}); }
+  function recordSkill(skill,correct){
+    const m=masteryData();
+    if(!m[skill]) m[skill]={correct:0,total:0,last:null};
+    m[skill].total++;
+    if(correct) m[skill].correct++;
+    m[skill].last=new Date().toISOString();
+    store.set("e3_mastery",m);
+    renderMastery();
+  }
+  function skillPct(skill){
+    const x=masteryData()[skill];
+    return !x||!x.total ? null : Math.round(x.correct/x.total*100);
+  }
+  function inferSkill(text){
+    const s=String(text||"").toLowerCase();
+    if(s.includes("spell") || s.includes("spelling")) return "spelling";
+    if(s.includes("present perfect") || s.includes("for +") || s.includes("since +") || s.includes("have lived")) return "perfect";
+    if(s.includes("used to") || s.includes("would")) return "usedto";
+    if(s.includes("past") || s.includes("after did") || s.includes("yesterday")) return "past";
+    if(s.includes("question") || s.includes("negative")) return "questions";
+    if(s.includes("vocab") || s.includes("meaning")) return "vocabulary";
+    if(s.includes("reading") || s.includes("text")) return "reading";
+    if(s.includes("writing") || s.includes("punctuation") || s.includes("capital")) return "writing";
+    return "present";
+  }
+
+  function weakestSkills(){
+    const keys=Object.keys(skillNames);
+    return keys.map(k=>({key:k,pct:skillPct(k)}))
+      .sort((a,b)=>(a.pct??-1)-(b.pct??-1));
+  }
+
+  function renderMastery(){
+    const box=$("#masteryBars"); if(!box) return;
+    const rows=Object.keys(skillNames).map(k=>{
+      const p=skillPct(k), shown=p===null?0:p;
+      const cls=p===null?"":p<60?"weak":p<80?"mid":"good";
+      return `<div class="mastery-row">
+        <div class="mastery-head"><strong>${esc(skillNames[k])}</strong><span>${p===null?"brak danych":p+"%"}</span></div>
+        <div class="mastery-track"><div class="mastery-fill ${cls}" style="width:${shown}%"></div></div>
+      </div>`;
+    }).join("");
+    box.innerHTML=rows;
+    const ranked=weakestSkills().filter(x=>x.pct!==null);
+    const w=ranked[0];
+    if(w){
+      $("#weakestSkill").textContent=skillNames[w.key];
+      $("#weakestAdvice").textContent=w.pct<60 ? `Masz około ${w.pct}%. Ten temat powinien być teraz priorytetem.` :
+        w.pct<80 ? `Masz około ${w.pct}%. Jeszcze kilka powtórek i cel 80% będzie blisko.` :
+        `Masz ${w.pct}%. Wszystkie mierzone tematy wyglądają coraz lepiej.`;
+    }else{
+      $("#weakestSkill").textContent="—";
+      $("#weakestAdvice").textContent="Zrób Daily Challenge, Dictation lub Transformations.";
+    }
+    renderTodayFocus();
+  }
+
+  function renderTodayFocus(){
+    const el=$("#todayFocus"); if(!el) return;
+    const ranked=weakestSkills();
+    const known=ranked.filter(x=>x.pct!==null);
+    const mistakes=store.get("e3_mistakes",[]);
+    if(!known.length && !mistakes.length){
+      el.innerHTML="1) Daily Challenge · 2) 5 słów Spelling · 3) jedno Writing Task · 4) 3 zdania Dictation.";
+      return;
+    }
+    const focus=[];
+    if(known[0]) focus.push(`<strong>${esc(skillNames[known[0].key])}</strong> (${known[0].pct}%)`);
+    if(known[1]) focus.push(`<strong>${esc(skillNames[known[1].key])}</strong> (${known[1].pct}%)`);
+    if(mistakes.length) focus.push(`<strong>My mistakes</strong> — ${Math.min(mistakes.length,10)} kart do powtórki`);
+    el.innerHTML="Dzisiaj skup się na: "+focus.join(" · ");
+  }
+
+  // ----- Streak and activity -----
+  function localDateKey(d=new Date()){
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  }
+  function markActivity(){
+    const a=store.get("e3_activity",[]);
+    const today=localDateKey();
+    if(!a.includes(today)){a.push(today);store.set("e3_activity",a.slice(-120));}
+    renderActivity();
+  }
+  function calcStreak(){
+    const set=new Set(store.get("e3_activity",[]));
+    let n=0,d=new Date();
+    // allow current streak to include yesterday when today is not marked yet
+    if(!set.has(localDateKey(d))) d.setDate(d.getDate()-1);
+    while(set.has(localDateKey(d))){n++;d.setDate(d.getDate()-1)}
+    return n;
+  }
+  function renderActivity(){
+    const a=new Set(store.get("e3_activity",[]));
+    if($("#streakDays")) $("#streakDays").textContent=calcStreak();
+    const week=[];
+    for(let i=6;i>=0;i--){
+      const d=new Date();d.setDate(d.getDate()-i);
+      const key=localDateKey(d);
+      week.push(`<span class="day-dot ${a.has(key)?"done":""}" title="${key}">${["Nd","Pn","Wt","Śr","Cz","Pt","So"][d.getDay()]}</span>`);
+    }
+    if($("#streakWeek")) $("#streakWeek").innerHTML=week.join("");
+    if($("#activityCalendar")) $("#activityCalendar").innerHTML=week.join("");
+  }
+  $("#finishSession").addEventListener("click",markActivity);
+
+  // ----- Exam date -----
+  const examInput=$("#examDateInput");
+  if(examInput){
+    examInput.value=store.get("e3_exam_date","");
+    function renderExamCountdown(){
+      const v=examInput.value,el=$("#examCountdown");
+      if(!v){el.textContent="Ustaw datę";return}
+      const parts=v.split("-").map(Number);
+      const target=new Date(parts[0],parts[1]-1,parts[2],12,0,0);
+      const now=new Date();
+      const days=Math.ceil((target-now)/(1000*60*60*24));
+      el.textContent=days>1?`${days} dni`:days===1?"1 dzień":days===0?"Dzisiaj!":"Po terminie";
+    }
+    examInput.addEventListener("change",()=>{store.set("e3_exam_date",examInput.value);renderExamCountdown()});
+    renderExamCountdown();
+  }
+
+  // ----- Study timer -----
+  let studyRemaining=25*60,studyTimerId=null;
+  function renderStudyTimer(){
+    const m=String(Math.floor(studyRemaining/60)).padStart(2,"0"),s=String(studyRemaining%60).padStart(2,"0");
+    if($("#studyTimer")) $("#studyTimer").textContent=`${m}:${s}`;
+  }
+  $("#timerPreset").addEventListener("change",()=>{
+    clearInterval(studyTimerId);studyTimerId=null;
+    studyRemaining=Number($("#timerPreset").value)*60;renderStudyTimer();$("#startStudyTimer").textContent="Start";
+  });
+  $("#startStudyTimer").addEventListener("click",()=>{
+    if(studyTimerId){clearInterval(studyTimerId);studyTimerId=null;$("#startStudyTimer").textContent="Start";return}
+    $("#startStudyTimer").textContent="Pause";
+    studyTimerId=setInterval(()=>{
+      studyRemaining--;renderStudyTimer();
+      if(studyRemaining<=0){clearInterval(studyTimerId);studyTimerId=null;$("#startStudyTimer").textContent="Start";alert("Koniec sesji. Zrób 5 minut przerwy.");}
+    },1000);
+  });
+  $("#resetStudyTimer").addEventListener("click",()=>{clearInterval(studyTimerId);studyTimerId=null;studyRemaining=Number($("#timerPreset").value)*60;renderStudyTimer();$("#startStudyTimer").textContent="Start"});
+  renderStudyTimer();
+
+  // ----- Adaptive Daily Challenge -----
+  const adaptiveBank=[
+    {skill:"present",q:"I ___ to the gym three times a week.",o:["go","am going","went"],a:"go",hint:"Three times a week = regular routine.",why:"Routine → Present Simple."},
+    {skill:"present",q:"I ___ to the gym now.",o:["go","am going","went"],a:"am going",hint:"Look at the word NOW.",why:"Now → Present Continuous."},
+    {skill:"present",q:"She ___ English every Wednesday.",o:["study","studies","is study"],a:"studies",hint:"She/he/it changes the verb.",why:"Third person singular → studies."},
+    {skill:"past",q:"Yesterday I ___ to the gym.",o:["go","went","am going"],a:"went",hint:"Yesterday = finished past.",why:"Past Simple of go = went."},
+    {skill:"past",q:"Did you ___ to work yesterday?",o:["go","went","going"],a:"go",hint:"What happens to the verb after DID?",why:"After did → base form."},
+    {skill:"past",q:"I didn't ___ last weekend.",o:["work","worked","working"],a:"work",hint:"After didn't use the base form.",why:"didn't + work."},
+    {skill:"perfect",q:"I have lived in the UK ___ 11 years.",o:["for","since","from"],a:"for",hint:"11 years is a period of time.",why:"FOR + period."},
+    {skill:"perfect",q:"I have worked here ___ 2023.",o:["for","since","during"],a:"since",hint:"2023 is a starting point.",why:"SINCE + starting point."},
+    {skill:"perfect",q:"I ___ in the UK for 11 years.",o:["live","am living","have lived"],a:"have lived",hint:"It started in the past and continues now.",why:"Use Present Perfect."},
+    {skill:"usedto",q:"Did you ___ to play football?",o:["use","used","using"],a:"use",hint:"After DID use the base form.",why:"Did you use to...?"},
+    {skill:"usedto",q:"I ___ to live in Poland.",o:["used","use","would"],a:"used",hint:"Positive sentence about a past state.",why:"I used to live..."},
+    {skill:"usedto",q:"When I was a child, I ___ play outside every day.",o:["would","am","have"],a:"would",hint:"Repeated action in the past.",why:"Would can describe repeated past actions."},
+    {skill:"questions",q:"___ you working tonight?",o:["Are","Do","Did"],a:"Are",hint:"The answer contains 'working'.",why:"Present Continuous question → Are you working...?"},
+    {skill:"questions",q:"___ you ever visited Scotland?",o:["Have","Did","Are"],a:"Have",hint:"Ever + life experience.",why:"Present Perfect question."},
+    {skill:"vocabulary",q:"A plane leaves the ground. It ___ .",o:["takes off","checks out","breaks down"],a:"takes off",hint:"Think about air travel.",why:"take off = leave the ground."},
+    {skill:"vocabulary",q:"You leave a hotel. You ___ .",o:["check out","check in","set off"],a:"check out",hint:"Opposite of check in.",why:"check out = leave a hotel."},
+    {skill:"vocabulary",q:"A long journey by sea is a ___ .",o:["voyage","trip","shift"],a:"voyage",hint:"Often used for sea travel.",why:"voyage."},
+    {skill:"spelling",q:"Choose the correct spelling.",o:["probably","probaly","probabbly"],a:"probably",hint:"Look carefully at the middle letters.",why:"Correct spelling: probably."},
+    {skill:"spelling",q:"Choose the correct spelling.",o:["knowledge","knowlege","knowledje"],a:"knowledge",hint:"There is a 'd' before 'g'.",why:"Correct spelling: knowledge."},
+    {skill:"spelling",q:"Choose the correct spelling.",o:["business","buisness","busines"],a:"business",hint:"The first part is 'busi-'.",why:"Correct spelling: business."},
+    {skill:"writing",q:"Choose the best sentence.",o:["I live in Wakefield.","i live in wakefield","I live in Wakefield"],a:"I live in Wakefield.",hint:"Check capitals and punctuation.",why:"Capital I, place name, final full stop."},
+    {skill:"writing",q:"Choose the best sentence.",o:["Last weekend I was at work.","In last weekend I was at work.","Last weekend i was at work"],a:"Last weekend I was at work.",hint:"No 'in' before last weekend.",why:"Correct sentence structure and capital I."},
+    {skill:"reading",q:"If a notice says 'arrive ten minutes early', what should you do?",o:["Arrive before the start time","Arrive ten minutes late","Leave early"],a:"Arrive before the start time",hint:"Early means before the scheduled time.",why:"Find the exact meaning of the instruction."}
+  ];
+  let dailySet=[],dailyAttempts={};
+  function weightedDailyBank(){
+    const weak=weakestSkills().filter(x=>x.pct!==null).slice(0,3).map(x=>x.key);
+    const weighted=[];
+    adaptiveBank.forEach(q=>{
+      weighted.push(q);
+      if(weak.includes(q.skill)){weighted.push(q);weighted.push(q)}
+    });
+    return weighted;
+  }
+  function buildDailyChallenge(){
+    const pool=weightedDailyBank(),selected=[],seen=new Set();
+    while(selected.length<12 && seen.size<adaptiveBank.length){
+      const q=pool[Math.floor(Math.random()*pool.length)];
+      const idx=adaptiveBank.indexOf(q);
+      if(!seen.has(idx)){seen.add(idx);selected.push(q)}
+    }
+    dailySet=selected;dailyAttempts={};
+    $("#dailyChallengeArea").innerHTML=dailySet.map((q,i)=>`
+      <div class="challenge-q" id="dcq${i}">
+        <strong>${i+1}. ${esc(q.q)}</strong>
+        ${q.o.map(o=>`<label class="option"><input type="radio" name="dc${i}" value="${esc(o)}"> ${esc(o)}</label>`).join("")}
+        <div class="hidden" id="dchint${i}"></div>
+      </div>`).join("");
+    dailySet.forEach((q,i)=>{
+      document.querySelectorAll(`input[name="dc${i}"]`).forEach(r=>r.addEventListener("change",()=>{
+        dailyAttempts[i]=(dailyAttempts[i]||0)+1;
+        const card=$(`#dcq${i}`),hint=$(`#dchint${i}`);
+        if(r.value===q.a){
+          card.classList.remove("wrong");card.classList.add("correct");
+          hint.className="live-feedback good";hint.innerHTML=`✓ Correct — ${esc(q.why)}`;
+          document.querySelectorAll(`input[name="dc${i}"]`).forEach(x=>x.disabled=true);
+          recordSkill(q.skill,true);
+        }else if(dailyAttempts[i]===1){
+          card.classList.add("wrong");
+          hint.className="hint-box";hint.innerHTML=`💡 <strong>Spróbuj jeszcze raz.</strong> ${esc(q.hint)}`;
+          r.checked=false;
+        }else{
+          card.classList.add("wrong");
+          hint.className="live-feedback bad";hint.innerHTML=`✗ Poprawnie: <strong>${esc(q.a)}</strong><br>${esc(q.why)}`;
+          document.querySelectorAll(`input[name="dc${i}"]`).forEach(x=>x.disabled=true);
+          recordSkill(q.skill,false);
+          addMistake(q.skill==="spelling"?"SP":"GR",r.value,q.a,q.why);
+        }
+        const answered=dailySet.filter((_,j)=>document.querySelector(`input[name="dc${j}"]:disabled`)).length;
+        $("#dailyChallengeState").textContent=`${answered}/12 zakończonych`;
+        if(answered===dailySet.length){
+          const correct=dailySet.filter((_,j)=>$("#dcq"+j).classList.contains("correct")).length;
+          $("#dailyChallengeResult").innerHTML=`<strong>${correct}/12</strong> ukończone. ${correct>=10?"Świetny wynik.":correct>=8?"Dobry wynik — powtórz błędy.":"Przejdź do Mastery i poćwicz najsłabsze tematy."}`;
+          stats.quizzes++;saveStats();markActivity();
+        }
+      }));
+    });
+    $("#dailyChallengeState").textContent="0/12 zakończonych";
+    $("#dailyChallengeResult").textContent="Masz dwie próby na każde pytanie.";
+  }
+  $("#startDailyChallenge").addEventListener("click",buildDailyChallenge);
+
+  // ----- Dictation -----
+  const dictationBank=[
+    {s:"I go to the gym three times a week.",skill:"present"},
+    {s:"I am going to the gym now.",skill:"present"},
+    {s:"I am working tonight.",skill:"present"},
+    {s:"Last weekend I was at work.",skill:"past"},
+    {s:"I went to college yesterday.",skill:"past"},
+    {s:"Did you go to work yesterday?",skill:"past"},
+    {s:"I have lived in the UK for eleven years.",skill:"perfect"},
+    {s:"I have worked here since 2023.",skill:"perfect"},
+    {s:"I used to live in Poland.",skill:"usedto"},
+    {s:"Did you use to play football?",skill:"usedto"},
+    {s:"I didn't use to drink coffee.",skill:"usedto"},
+    {s:"I study English every Wednesday.",skill:"present"},
+    {s:"I am studying English at the moment.",skill:"present"},
+    {s:"The journey to Manchester takes just over an hour.",skill:"vocabulary"},
+    {s:"We need to check in at the hotel first.",skill:"vocabulary"},
+    {s:"The plane takes off at eight in the morning.",skill:"vocabulary"},
+    {s:"Please contact the college if you cannot attend.",skill:"reading"},
+    {s:"I work as a Shift Manager and I am responsible for my team.",skill:"writing"},
+    {s:"I want to improve my spelling, grammar and writing.",skill:"writing"},
+    {s:"Although English can be difficult, I practise every week.",skill:"spelling"}
+  ];
+  let currentDict=dictationBank[0],dictTries=0;
+  let dictStats=store.get("e3_dictation",{correct:0,attempts:0,streak:0});
+  function normalizeSentence(s){return s.trim().replace(/\s+/g," ").replace(/[’]/g,"'").toLowerCase()}
+  function chooseDictation(){
+    currentDict=dictationBank[Math.floor(Math.random()*dictationBank.length)];
+    dictTries=0;$("#dictationInput").value="";$("#dictationPrompt").textContent="Sentence hidden 🔒";
+    $("#dictationFeedback").textContent="Odtwórz zdanie i napisz dokładnie to, co słyszysz.";
+  }
+  function playDict(rate=0.9){
+    if("speechSynthesis" in window){
+      speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(currentDict.s);u.lang="en-GB";u.rate=rate;speechSynthesis.speak(u);
+    }
+  }
+  function renderDictStats(){
+    $("#dictationCorrect").textContent=dictStats.correct;
+    $("#dictationAttemptsStat").textContent=dictStats.attempts;
+    $("#dictationAccuracy").textContent=(dictStats.attempts?Math.round(dictStats.correct/dictStats.attempts*100):0)+"%";
+    $("#dictationStreak").textContent=dictStats.streak;
+    store.set("e3_dictation",dictStats);
+  }
+  $("#playDictation").addEventListener("click",()=>playDict(.9));
+  $("#slowerDictation").addEventListener("click",()=>playDict(.68));
+  $("#newDictation").addEventListener("click",chooseDictation);
+  $("#showDictationAnswer").addEventListener("click",()=>{$("#dictationPrompt").textContent=currentDict.s;$("#dictationFeedback").innerHTML=`Odpowiedź: <strong>${esc(currentDict.s)}</strong>`});
+  $("#checkDictation").addEventListener("click",()=>{
+    const user=$("#dictationInput").value.trim(); if(!user){$("#dictationFeedback").textContent="Najpierw wpisz zdanie.";return}
+    dictTries++;dictStats.attempts++;
+    const ok=normalizeSentence(user)===normalizeSentence(currentDict.s);
+    if(ok){
+      dictStats.correct++;dictStats.streak++;recordSkill(currentDict.skill,true);
+      $("#dictationFeedback").innerHTML=`<span class="ok">✓ Perfect.</span> Zdanie zapisane poprawnie.`;
+      $("#dictationPrompt").textContent=currentDict.s;markActivity();
+    }else{
+      dictStats.streak=0;recordSkill(currentDict.skill,false);
+      const userWords=user.split(/\s+/),correctWords=currentDict.s.split(/\s+/);
+      let firstMismatch=0;while(firstMismatch<Math.min(userWords.length,correctWords.length) && normalizeSentence(userWords[firstMismatch])===normalizeSentence(correctWords[firstMismatch])) firstMismatch++;
+      if(dictTries===1){
+        $("#dictationFeedback").innerHTML=`<div class="hint-box">💡 Spróbuj jeszcze raz. Problem zaczyna się około słowa <strong>${firstMismatch+1}</strong>. Odtwórz zdanie jeszcze raz.</div>`;
+      }else{
+        $("#dictationFeedback").innerHTML=`<span class="no">Jeszcze nie.</span><br><div class="diff">${diffWords(user,currentDict.s)}</div><br>Poprawnie: <strong>${esc(currentDict.s)}</strong>`;
+        $("#dictationPrompt").textContent=currentDict.s;
+        addMistake("SP",user,currentDict.s,"Dictation: sprawdź spelling, brakujące słowa i końcówki czasowników.");
+      }
+    }
+    renderDictStats();
+  });
+  chooseDictation();renderDictStats();
+
+  // ----- Transformations -----
+  const transformationBank=[
+    {from:"I go to the gym every week.",task:"Change to yesterday.",ans:"I went to the gym yesterday.",hint:"Past Simple of GO is irregular." ,skill:"past"},
+    {from:"I work night shifts.",task:"Change to tonight.",ans:"I am working tonight.",hint:"Tonight = a specific arrangement → Present Continuous.",skill:"present"},
+    {from:"I live in the UK.",task:"Add: for 11 years, continuing until now.",ans:"I have lived in the UK for 11 years.",hint:"Started in the past and continues now.",skill:"perfect"},
+    {from:"I used to play football.",task:"Make a question.",ans:"Did you use to play football?",hint:"After DID use the base form.",skill:"usedto"},
+    {from:"I used to drink coffee.",task:"Make it negative.",ans:"I didn't use to drink coffee.",hint:"After DIDN'T use the base form.",skill:"usedto"},
+    {from:"She go to college every Wednesday.",task:"Correct the sentence.",ans:"She goes to college every Wednesday.",hint:"He/she/it changes the Present Simple verb.",skill:"present"},
+    {from:"Did you went to work yesterday?",task:"Correct the sentence.",ans:"Did you go to work yesterday?",hint:"After DID...",skill:"past"},
+    {from:"I am go to the gym now.",task:"Correct the sentence.",ans:"I am going to the gym now.",hint:"After AM use verb + -ing.",skill:"present"},
+    {from:"I am living in the UK for 11 years.",task:"Correct the sentence.",ans:"I have lived in the UK for 11 years.",hint:"Use Present Perfect with FOR when the situation continues now.",skill:"perfect"},
+    {from:"In last weekend I was at work.",task:"Correct the sentence.",ans:"Last weekend I was at work.",hint:"Do you need a preposition before 'last weekend'?",skill:"past"},
+    {from:"i live in wakefield",task:"Correct capitals and punctuation.",ans:"I live in Wakefield.",hint:"Check I, place name and full stop.",skill:"writing"},
+    {from:"I study English every Wednesday.",task:"Change to: right now.",ans:"I am studying English right now.",hint:"Right now → Present Continuous.",skill:"present"},
+    {from:"I work here.",task:"Add: since 2023, continuing now.",ans:"I have worked here since 2023.",hint:"Since + starting point.",skill:"perfect"},
+    {from:"When I was a child, I played outside every day.",task:"Rewrite using WOULD.",ans:"When I was a child, I would play outside every day.",hint:"Would + base form for repeated past action.",skill:"usedto"}
+  ];
+  let currentTransform=null,transformTries=0;
+  function newTransform(){
+    currentTransform=transformationBank[Math.floor(Math.random()*transformationBank.length)];transformTries=0;
+    $("#transformTask").innerHTML=`<strong>Original:</strong> ${esc(currentTransform.from)}<br><strong>Task:</strong> ${esc(currentTransform.task)}`;
+    $("#transformInput").value="";$("#transformFeedback").textContent="Masz dwie próby zanim zobaczysz pełną odpowiedź.";
+  }
+  $("#newTransformation").addEventListener("click",newTransform);
+  $("#transformationHint").addEventListener("click",()=>{if(currentTransform)$("#transformFeedback").innerHTML=`<div class="hint-box">💡 ${esc(currentTransform.hint)}</div>`});
+  $("#checkTransformation").addEventListener("click",()=>{
+    if(!currentTransform){newTransform();return}
+    const user=$("#transformInput").value.trim();if(!user){$("#transformFeedback").textContent="Napisz całe zdanie.";return}
+    transformTries++;
+    const clean=s=>s.trim().replace(/\s+/g," ").replace(/[’]/g,"'").replace(/[.!?]+$/,"").toLowerCase();
+    const ok=clean(user)===clean(currentTransform.ans);
+    if(ok){
+      $("#transformFeedback").innerHTML=`<span class="ok">✓ Correct!</span> ${esc(currentTransform.ans)}`;
+      recordSkill(currentTransform.skill,true);markActivity();
+    }else if(transformTries===1){
+      $("#transformFeedback").innerHTML=`<div class="hint-box">💡 Spróbuj jeszcze raz. ${esc(currentTransform.hint)}</div>`;
+    }else{
+      $("#transformFeedback").innerHTML=`<span class="no">Poprawna wersja:</span><br><strong>${esc(currentTransform.ans)}</strong><br><div class="diff">${diffWords(user,currentTransform.ans)}</div>`;
+      recordSkill(currentTransform.skill,false);addMistake("GR",user,currentTransform.ans,currentTransform.hint);
+    }
+  });
+  newTransform();
+
+  // ----- Writing exam marker -----
+  function writingTaskCoverage(type,text){
+    const t=text.toLowerCase(); let checks=[];
+    if(type==="intro") checks=[/live|wakefield|uk/,/work|study|college/,/gym|free time|hobb/,/english|learn|improv/];
+    else if(type==="email") checks=[/sorry|cannot|can't|unable|attend/,/because|reason|due to/,/return|back|next/,/work|home|complete|send/];
+    else if(type==="story") checks=[/last|yesterday|weekend/,/went|was|worked|did|had|met/,/felt|happy|tired|good|bad/];
+    else checks=[/think|believe|opinion|important/,/because|reason/,/example|for example/];
+    return checks.filter(r=>r.test(t)).length/checks.length;
+  }
+  $("#scoreWritingExam").addEventListener("click",()=>{
+    const text=$("#writingArea").value.trim();if(!text){$("#writingExamFeedback").textContent="Najpierw napisz tekst.";return}
+    const result=advancedAutoCorrect(text),issues=result.issues;
+    const type=store.get("e3_writing_type","intro");
+    const words=text.split(/\s+/).filter(Boolean).length;
+    const sentences=(text.match(/[.!?]+(?=\s|$)/g)||[]).length;
+    const counts=type=>issues.filter(x=>x.type===type).length;
+    const coverage=writingTaskCoverage(type,text);
+    const target=prompts[type][1].split("–").map(x=>parseInt(x));
+    const wordFit=words>=target[0] && words<=target[1]+15;
+    const linking=(text.match(/\b(and|but|because|so|then|after that|although|however|first|finally)\b/gi)||[]).length;
+    const scores={
+      task:Math.max(1,Math.min(5,Math.round(coverage*4)+(wordFit?1:0))),
+      grammar:Math.max(1,5-Math.min(4,counts("GR")+counts("MW"))),
+      spelling:Math.max(1,5-Math.min(4,counts("SP"))),
+      punctuation:Math.max(1,5-Math.min(4,counts("P")+counts("CL"))),
+      structure:Math.max(1,Math.min(5,(sentences>=5?4:sentences>=3?3:2)+(linking>=2?1:0))),
+      vocab:Math.max(1,Math.min(5,2+Math.min(2,linking)+(new Set(text.toLowerCase().match(/\b[a-z']+\b/g)||[]).size>35?1:0)))
+    };
+    const vals=Object.values(scores),avg=vals.reduce((a,b)=>a+b,0)/vals.length;
+    const labels=[["task","Task completion"],["grammar","Grammar"],["spelling","Spelling"],["punctuation","Punctuation & capitals"],["structure","Sentence structure"],["vocab","Vocabulary & linking"]];
+    $("#writingRubric").innerHTML=labels.map(([k,l])=>`<div class="rubric-item"><b>${scores[k]}/5</b>${l}</div>`).join("");
+    const band=avg>=4.5?"Very strong":avg>=3.7?"Good progress":avg>=3?"Developing":"Needs practice";
+    $("#writingBand").textContent=band;
+    const weak=labels.slice().sort((a,b)=>scores[a[0]]-scores[b[0]]).slice(0,2).map(x=>x[1]);
+    $("#writingExamFeedback").innerHTML=`Estimated practice score: <strong>${avg.toFixed(1)}/5</strong>.<br>Najpierw popraw: <strong>${weak.join(" + ")}</strong>.<br>Words: ${words}; sentences: ${sentences}; detected issues: ${issues.length}.`;
+    recordSkill("writing",avg>=3.7);
+  });
+
+  // ----- Spaced review from personal mistakes -----
+  let reviewIndex=0,currentReview=null;
+  function reviewStatus(){return store.get("e3_review_status",{});}
+  function reviewKey(x){return `${x.type}|${x.wrong}|${x.correct}`;}
+  function dueReviews(){
+    const log=store.get("e3_mistakes",[]),status=reviewStatus(),now=Date.now();
+    const unique=[];const seen=new Set();
+    log.forEach(x=>{const k=reviewKey(x);if(!seen.has(k)){seen.add(k);const st=status[k];if(!st||!st.next||st.next<=now)unique.push(x)}});
+    return unique;
+  }
+  function renderReview(){
+    const due=dueReviews();$("#reviewDueCount").textContent=due.length;
+    if(!due.length){
+      currentReview=null;$("#personalReviewCard").innerHTML='<span class="ok">✓ Brak zaległych kart.</span><br><span class="muted">Popełnione później błędy automatycznie tu trafią.</span>';
+      return;
+    }
+    reviewIndex=Math.min(reviewIndex,due.length-1);currentReview=due[reviewIndex];
+    $("#personalReviewCard").innerHTML=`<div class="review-wrong">❌ ${esc(currentReview.wrong)}</div><p>${esc(currentReview.reason||"Popraw błąd.")}</p><div class="muted">Napisz poprawną wersję bez podglądania.</div>`;
+    $("#personalReviewInput").value="";$("#personalReviewFeedback").textContent="Spróbuj z pamięci.";
+  }
+  $("#checkPersonalReview").addEventListener("click",()=>{
+    if(!currentReview){renderReview();return}
+    const user=$("#personalReviewInput").value.trim(),correct=currentReview.correct;
+    const norm=s=>s.trim().replace(/\s+/g," ").replace(/[.!?]+$/,"").toLowerCase();
+    const key=reviewKey(currentReview),status=reviewStatus(),old=status[key]||{level:0};
+    if(norm(user)===norm(correct)){
+      old.level=Math.min(4,(old.level||0)+1);
+      const days=[1,2,4,7,14][old.level]||14;
+      old.next=Date.now()+days*86400000;status[key]=old;store.set("e3_review_status",status);
+      $("#personalReviewFeedback").innerHTML=`<span class="ok">✓ Correct.</span> Następna powtórka za około ${days} dni.`;
+      recordSkill(inferSkill(currentReview.reason),true);
+    }else{
+      old.level=0;old.next=Date.now()+4*60*60*1000;status[key]=old;store.set("e3_review_status",status);
+      $("#personalReviewFeedback").innerHTML=`<span class="no">Jeszcze nie.</span><br><div class="diff">${diffWords(user,correct)}</div><br><span class="review-answer">✅ ${esc(correct)}</span>`;
+      recordSkill(inferSkill(currentReview.reason),false);
+    }
+    setTimeout(renderReview,1200);
+  });
+  $("#nextPersonalReview").addEventListener("click",()=>{reviewIndex++;renderReview()});
+
+  // ----- Practice weakest -----
+  $("#practiceWeakest").addEventListener("click",()=>{
+    const w=weakestSkills().find(x=>x.pct!==null);
+    if(!w){document.querySelector('[data-panel="daily"]').click();buildDailyChallenge();return}
+    if(w.key==="spelling"){document.querySelector('[data-panel="spelling"]').click();}
+    else if(w.key==="writing"){document.querySelector('[data-panel="writing"]').click();}
+    else if(w.key==="vocabulary"){document.querySelector('[data-panel="vocabulary"]').click();}
+    else if(w.key==="reading"){document.querySelector('[data-panel="reading"]').click();}
+    else {document.querySelector('[data-panel="daily"]').click();buildDailyChallenge();}
+  });
+
+  // ----- Complete backup / import -----
+  $("#ultimateExport").addEventListener("click",()=>{
+    const keys=["e3_stats","e3_mistakes","e3_mastery","e3_activity","e3_exam_date","e3_dictation","e3_review_status","e3_writing","e3_writing_type","entry3_days"];
+    const data={version:2,created:new Date().toISOString(),values:{}};
+    keys.forEach(k=>{const v=localStorage.getItem(k);if(v!==null)data.values[k]=v});
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="entry3-full-backup.json";a.click();URL.revokeObjectURL(a.href);
+  });
+  $("#ultimateImport").addEventListener("change",e=>{
+    const file=e.target.files&&e.target.files[0];if(!file)return;
+    const r=new FileReader();
+    r.onload=()=>{
+      try{
+        const data=JSON.parse(r.result);
+        if(!data.values||typeof data.values!=="object")throw new Error("bad");
+        Object.entries(data.values).forEach(([k,v])=>localStorage.setItem(k,v));
+        alert("Backup zaimportowany. Aplikacja zostanie odświeżona.");location.reload();
+      }catch{alert("Nie mogę odczytać tego backupu.");}
+    };
+    r.readAsText(file);
+  });
+
+  // Enhance existing mistake capture to refresh spaced review/mastery focus.
+  const originalAddMistakeForUltimate=addMistake;
+  addMistake=function(type,wrong,correct,reason){
+    originalAddMistakeForUltimate(type,wrong,correct,reason);
+    setTimeout(()=>{renderReview();renderTodayFocus()},0);
+  };
+
+  renderMastery();renderActivity();renderReview();
+
+
+
+  // ==================== WORD DICTIONARY ====================
+  const dictionaryWords = [
+    // Grammar / auxiliaries
+    {w:"am",pl:"jestem",cat:"grammar",form:"be — Present",ex:"I am tired.",note:"Używamy z I. Przy czasowniku ciągłym: I am working."},
+    {w:"is",pl:"jest / jest w trakcie",cat:"grammar",form:"be — Present",ex:"She is working.",note:"Używamy z he / she / it."},
+    {w:"are",pl:"jesteś / jesteśmy / są",cat:"grammar",form:"be — Present",ex:"We are studying.",note:"Używamy z you / we / they."},
+    {w:"was",pl:"byłem / był / była",cat:"grammar",form:"be — Past",ex:"I was at work yesterday.",note:"Past Simple: I/he/she/it was."},
+    {w:"were",pl:"byłeś / byliśmy / byli",cat:"grammar",form:"be — Past",ex:"We were at college.",note:"Past Simple: you/we/they were."},
+    {w:"be",pl:"być",cat:"grammar",form:"base form",ex:"I want to be better at English.",note:"Podstawowa forma czasownika 'to be'."},
+    {w:"been",pl:"był / byłam / byli — forma po have",cat:"grammar",form:"past participle",ex:"I have been busy this week.",note:"Najczęściej po have/has/had."},
+    {w:"do",pl:"robić; operator pytań",cat:"grammar",form:"Present",ex:"Do you work nights?",note:"Do + I/you/we/they. Po DO czasownik jest w formie podstawowej."},
+    {w:"does",pl:"robi; operator pytań",cat:"grammar",form:"Present",ex:"Does she work here?",note:"Does + he/she/it. Po DOES: work, nie works."},
+    {w:"did",pl:"zrobił; operator przeszłości",cat:"grammar",form:"Past",ex:"Did you go yesterday?",note:"Po DID używamy base form: go, use, work."},
+    {w:"don't",pl:"nie robię / nie ...",cat:"grammar",form:"do not",ex:"I don't work on Mondays.",note:"Present Simple negative: I/you/we/they."},
+    {w:"doesn't",pl:"nie robi / nie ...",cat:"grammar",form:"does not",ex:"She doesn't work nights.",note:"Po DOESN'T: work, nie works."},
+    {w:"didn't",pl:"nie zrobiłem / nie ... w przeszłości",cat:"grammar",form:"did not",ex:"I didn't go yesterday.",note:"Po DIDN'T używamy base form: go, nie went."},
+    {w:"have",pl:"mieć; operator Present Perfect",cat:"grammar",form:"Present",ex:"I have lived here for 11 years.",note:"I/you/we/they have."},
+    {w:"has",pl:"ma; operator Present Perfect",cat:"grammar",form:"Present",ex:"She has worked here since 2024.",note:"He/she/it has."},
+    {w:"had",pl:"miał / miałem",cat:"grammar",form:"Past",ex:"I had a busy day.",note:"Past of have."},
+    {w:"will",pl:"będę / zrobię",cat:"grammar",form:"future modal",ex:"I will call you tomorrow.",note:"Po WILL używamy base form."},
+    {w:"won't",pl:"nie będę / nie zrobię",cat:"grammar",form:"will not",ex:"I won't be late.",note:"Przeczenie od will."},
+    {w:"would",pl:"by / zrobiłbym; dawny zwyczaj",cat:"grammar",form:"modal",ex:"When I was young, I would play outside every day.",note:"Może oznaczać warunkowe 'by' lub powtarzalną czynność w przeszłości."},
+    {w:"wouldn't",pl:"nie zrobiłbym / nie chciał; would not",cat:"grammar",form:"would not",ex:"I wouldn't do that.",note:"Przeczenie od would."},
+    {w:"can",pl:"móc / potrafić",cat:"grammar",form:"modal",ex:"I can speak Polish.",note:"Po CAN używamy base form."},
+    {w:"can't",pl:"nie móc / nie potrafić",cat:"grammar",form:"cannot",ex:"I can't come tomorrow.",note:"Przeczenie od can."},
+    {w:"could",pl:"mógłbym / potrafiłem",cat:"grammar",form:"modal",ex:"Could you help me?",note:"Uprzejma prośba lub przeszła umiejętność."},
+    {w:"couldn't",pl:"nie mogłem / nie potrafiłem",cat:"grammar",form:"could not",ex:"I couldn't attend the class.",note:"Przeczenie od could."},
+    {w:"should",pl:"powinienem",cat:"grammar",form:"modal",ex:"You should practise every day.",note:"Rada. Po SHOULD używamy base form."},
+    {w:"shouldn't",pl:"nie powinienem",cat:"grammar",form:"should not",ex:"You shouldn't rush the exam.",note:"Przeczenie od should."},
+    {w:"must",pl:"muszę",cat:"grammar",form:"modal",ex:"I must finish this today.",note:"Silny obowiązek."},
+    {w:"mustn't",pl:"nie wolno",cat:"grammar",form:"must not",ex:"You mustn't smoke here.",note:"Zakaz — nie oznacza 'nie musisz'."},
+    {w:"may",pl:"mogę / może",cat:"grammar",form:"modal",ex:"I may go tomorrow.",note:"Możliwość lub formalna zgoda."},
+    {w:"might",pl:"może / być może",cat:"grammar",form:"modal",ex:"I might work tonight.",note:"Możliwość, często mniej pewna niż may."},
+    {w:"used to",pl:"kiedyś robiłem / byłem",cat:"grammar",form:"past habit/state",ex:"I used to live in Poland.",note:"Dawny stan lub zwyczaj, zwykle już nieaktualny."},
+    {w:"use to",pl:"forma po did / didn't",cat:"grammar",form:"base after did",ex:"Did you use to play football?",note:"Po DID/DIDN'T piszemy use to, nie used to."},
+
+    // Core verbs
+    {w:"go",pl:"iść / jechać",cat:"verbs",form:"base / Present",ex:"I go to the gym every week.",note:"Rutyna; także po do/did/can/will."},
+    {w:"goes",pl:"idzie / jedzie",cat:"verbs",form:"Present he/she/it",ex:"She goes to college on Wednesday.",note:"Present Simple z he/she/it."},
+    {w:"went",pl:"poszedłem / pojechałem",cat:"verbs",form:"Past Simple of go",ex:"I went to the gym yesterday.",note:"Nie używaj po did: Did you go...?"},
+    {w:"gone",pl:"poszedł / wyjechał",cat:"verbs",form:"past participle of go",ex:"He has gone home.",note:"Najczęściej po have/has."},
+    {w:"going",pl:"idąc / jadąc; w trakcie",cat:"verbs",form:"-ing",ex:"I am going to work now.",note:"Po am/is/are."},
+    {w:"live",pl:"mieszkać / żyć",cat:"verbs",form:"Present",ex:"I live in Wakefield.",note:"Stały fakt."},
+    {w:"lived",pl:"mieszkałem / żyłem",cat:"verbs",form:"Past / participle",ex:"I lived in Poland. / I have lived here for 11 years.",note:"Regular verb."},
+    {w:"living",pl:"mieszkając / żyjąc",cat:"verbs",form:"-ing",ex:"I am living with family this month.",note:"Sytuacja tymczasowa."},
+    {w:"work",pl:"pracować",cat:"verbs",form:"Present",ex:"I work as a Shift Manager.",note:"Rutyna / zawód."},
+    {w:"worked",pl:"pracowałem",cat:"verbs",form:"Past / participle",ex:"I worked last weekend.",note:"Regular verb."},
+    {w:"working",pl:"pracując / w trakcie pracy",cat:"verbs",form:"-ing",ex:"I am working tonight.",note:"Teraz lub konkretny plan."},
+    {w:"study",pl:"uczyć się / studiować",cat:"verbs",form:"Present",ex:"I study English every Wednesday.",note:"Regular action."},
+    {w:"studied",pl:"uczyłem się / studiowałem",cat:"verbs",form:"Past / participle",ex:"I studied English yesterday.",note:"study → studied."},
+    {w:"studying",pl:"ucząc się",cat:"verbs",form:"-ing",ex:"I am studying now.",note:"Present Continuous."},
+    {w:"get",pl:"dostać / stać się / dotrzeć",cat:"verbs",form:"Present",ex:"I get home at 7 p.m.",note:"Bardzo częsty czasownik o wielu znaczeniach."},
+    {w:"got",pl:"dostałem / dotarłem",cat:"verbs",form:"Past of get",ex:"I got home late.",note:"Past Simple."},
+    {w:"make",pl:"robić / tworzyć",cat:"verbs",form:"Present",ex:"I make dinner after work.",note:"Make = tworzyć/produkować; do = wykonywać czynność."},
+    {w:"made",pl:"zrobiłem / wykonany",cat:"verbs",form:"Past / participle",ex:"I made dinner yesterday.",note:"Irregular."},
+    {w:"take",pl:"brać / zabierać",cat:"verbs",form:"Present",ex:"I take the bus to college.",note:"Także: take time = zajmować czas."},
+    {w:"took",pl:"wziąłem / zabrałem",cat:"verbs",form:"Past",ex:"The journey took two hours.",note:"Past of take."},
+    {w:"taken",pl:"wzięty / zabrany",cat:"verbs",form:"past participle",ex:"I have taken the train before.",note:"Po have/has."},
+    {w:"come",pl:"przyjść / przyjechać",cat:"verbs",form:"Present",ex:"I come home after work.",note:"Ruch w kierunku mówiącego/miejsca odniesienia."},
+    {w:"came",pl:"przyszedłem / przyjechałem",cat:"verbs",form:"Past",ex:"I came to the UK years ago.",note:"Past of come."},
+    {w:"see",pl:"widzieć",cat:"verbs",form:"Present",ex:"I see my manager every day.",note:"Base form."},
+    {w:"saw",pl:"widziałem",cat:"verbs",form:"Past",ex:"I saw him yesterday.",note:"Past of see."},
+    {w:"seen",pl:"widziany / widziałem po have",cat:"verbs",form:"past participle",ex:"I have seen this film.",note:"Po have/has."},
+    {w:"say",pl:"powiedzieć",cat:"verbs",form:"Present",ex:"He said hello.",note:"say something; tell someone."},
+    {w:"said",pl:"powiedział",cat:"verbs",form:"Past of say",ex:"She said she was tired.",note:"Past of say."},
+    {w:"tell",pl:"powiedzieć komuś",cat:"verbs",form:"Present",ex:"Tell me what happened.",note:"tell + person."},
+    {w:"told",pl:"powiedział komuś",cat:"verbs",form:"Past",ex:"I told my manager.",note:"Past of tell."},
+    {w:"know",pl:"wiedzieć / znać",cat:"verbs",form:"Present",ex:"I know the answer.",note:"State verb."},
+    {w:"knew",pl:"wiedziałem / znałem",cat:"verbs",form:"Past",ex:"I knew the answer.",note:"Past of know."},
+    {w:"known",pl:"znany / wiedziałem po have",cat:"verbs",form:"past participle",ex:"I have known him for years.",note:"Po have/has."},
+    {w:"think",pl:"myśleć",cat:"verbs",form:"Present",ex:"I think English is important.",note:"Opinia."},
+    {w:"thought",pl:"myślałem",cat:"verbs",form:"Past",ex:"I thought the test was difficult.",note:"Past of think."},
+    {w:"feel",pl:"czuć",cat:"verbs",form:"Present",ex:"I feel good today.",note:"I feel good / I am feeling better."},
+    {w:"felt",pl:"czułem",cat:"verbs",form:"Past",ex:"I felt tired yesterday.",note:"Past of feel."},
+    {w:"meet",pl:"spotkać",cat:"verbs",form:"Present",ex:"I meet my team every morning.",note:"Routine."},
+    {w:"met",pl:"spotkałem",cat:"verbs",form:"Past",ex:"I met my friend yesterday.",note:"Past of meet."},
+    {w:"leave",pl:"wyjść / opuścić",cat:"verbs",form:"Present",ex:"I leave work at 6 p.m.",note:"Base form."},
+    {w:"left",pl:"wyszedłem / opuściłem",cat:"verbs",form:"Past",ex:"I left work early.",note:"Past of leave."},
+    {w:"bring",pl:"przynieść",cat:"verbs",form:"Present",ex:"Please bring your notebook.",note:"Bring = przynieść do miejsca."},
+    {w:"brought",pl:"przyniosłem",cat:"verbs",form:"Past",ex:"I brought my course folder.",note:"Past of bring."},
+    {w:"buy",pl:"kupić",cat:"verbs",form:"Present",ex:"I buy food after work.",note:"Base form."},
+    {w:"bought",pl:"kupiłem",cat:"verbs",form:"Past",ex:"I bought a new notebook.",note:"Past of buy."},
+    {w:"eat",pl:"jeść",cat:"verbs",form:"Present",ex:"I eat breakfast before work.",note:"Base form."},
+    {w:"ate",pl:"jadłem / zjadłem",cat:"verbs",form:"Past",ex:"I ate breakfast at 5 a.m.",note:"Past of eat."},
+    {w:"eaten",pl:"zjedzony / jadłem po have",cat:"verbs",form:"past participle",ex:"I have already eaten.",note:"Po have/has."},
+    {w:"drink",pl:"pić",cat:"verbs",form:"Present",ex:"I drink water at work.",note:"Base form."},
+    {w:"drank",pl:"piłem / wypiłem",cat:"verbs",form:"Past",ex:"I drank coffee this morning.",note:"Past of drink."},
+    {w:"drunk",pl:"wypity / piłem po have",cat:"verbs",form:"past participle",ex:"I have drunk enough water.",note:"Po have/has."},
+    {w:"write",pl:"pisać",cat:"verbs",form:"Present",ex:"I write emails at work.",note:"Base form."},
+    {w:"wrote",pl:"napisałem",cat:"verbs",form:"Past",ex:"I wrote an email yesterday.",note:"Past of write."},
+    {w:"written",pl:"napisany",cat:"verbs",form:"past participle",ex:"I have written the email.",note:"Po have/has."},
+    {w:"read",pl:"czytać / przeczytałem",cat:"verbs",form:"Present / Past",ex:"I read every day. / I read it yesterday.",note:"Pisownia ta sama, wymowa w Past jest inna."},
+    {w:"speak",pl:"mówić",cat:"verbs",form:"Present",ex:"I speak Polish and English.",note:"Base form."},
+    {w:"spoke",pl:"mówiłem / powiedziałem",cat:"verbs",form:"Past",ex:"I spoke to my manager.",note:"Past of speak."},
+    {w:"spoken",pl:"mówiony / rozmawiałem po have",cat:"verbs",form:"past participle",ex:"I have spoken to him.",note:"Po have/has."},
+    {w:"choose",pl:"wybrać",cat:"verbs",form:"Present",ex:"Choose the correct answer.",note:"Base form."},
+    {w:"chose",pl:"wybrałem",cat:"verbs",form:"Past",ex:"I chose option B.",note:"Past of choose."},
+    {w:"chosen",pl:"wybrany",cat:"verbs",form:"past participle",ex:"I have chosen the correct answer.",note:"Po have/has."},
+    {w:"break",pl:"zepsuć / złamać",cat:"verbs",form:"Present",ex:"Don't break it.",note:"Base form."},
+    {w:"broke",pl:"zepsuł / złamał",cat:"verbs",form:"Past",ex:"The machine broke yesterday.",note:"Past of break."},
+    {w:"broken",pl:"zepsuty / złamany",cat:"verbs",form:"past participle/adjective",ex:"The machine is broken.",note:"Także po have: has broken."},
+
+    // Time markers
+    {w:"every",pl:"każdy / co",cat:"time",form:"time marker",ex:"I go to college every Wednesday.",note:"Często wskazuje Present Simple."},
+    {w:"usually",pl:"zazwyczaj",cat:"time",form:"frequency",ex:"I usually start work at 6 a.m.",note:"Adverb of frequency."},
+    {w:"often",pl:"często",cat:"time",form:"frequency",ex:"I often go to the gym.",note:"Często z Present Simple."},
+    {w:"sometimes",pl:"czasami",cat:"time",form:"frequency",ex:"I sometimes work weekends.",note:"Adverb of frequency."},
+    {w:"always",pl:"zawsze",cat:"time",form:"frequency",ex:"I always check my work.",note:"Adverb of frequency."},
+    {w:"never",pl:"nigdy",cat:"time",form:"frequency",ex:"I never smoke.",note:"Nie dodajemy drugiego przeczenia."},
+    {w:"now",pl:"teraz",cat:"time",form:"time marker",ex:"I am studying now.",note:"Często Present Continuous."},
+    {w:"right now",pl:"właśnie teraz",cat:"time",form:"time marker",ex:"I am working right now.",note:"Present Continuous."},
+    {w:"today",pl:"dzisiaj",cat:"time",form:"time marker",ex:"I am working today.",note:"Może wskazywać sytuację tymczasową."},
+    {w:"tonight",pl:"dzisiaj wieczorem / tej nocy",cat:"time",form:"time marker",ex:"I am working tonight.",note:"Często konkretny plan."},
+    {w:"tomorrow",pl:"jutro",cat:"time",form:"future marker",ex:"I am going to college tomorrow.",note:"Plan przyszły."},
+    {w:"yesterday",pl:"wczoraj",cat:"time",form:"past marker",ex:"I went to work yesterday.",note:"Past Simple."},
+    {w:"last",pl:"ostatni / poprzedni",cat:"time",form:"past marker",ex:"I worked last weekend.",note:"last week/month/year → Past Simple."},
+    {w:"ago",pl:"temu",cat:"time",form:"past marker",ex:"I moved here 11 years ago.",note:"Past Simple."},
+    {w:"for",pl:"przez / od — okres czasu",cat:"time",form:"duration",ex:"I have lived here for 11 years.",note:"FOR + period: for two years."},
+    {w:"since",pl:"od — punkt początkowy",cat:"time",form:"starting point",ex:"I have worked here since 2023.",note:"SINCE + starting point."},
+    {w:"already",pl:"już",cat:"time",form:"Present Perfect marker",ex:"I have already finished.",note:"Często Present Perfect."},
+    {w:"yet",pl:"jeszcze / już w pytaniu",cat:"time",form:"Present Perfect marker",ex:"I haven't finished yet.",note:"Często na końcu pytania/przeczenia."},
+    {w:"ever",pl:"kiedykolwiek",cat:"time",form:"experience marker",ex:"Have you ever been to Scotland?",note:"Często Present Perfect."},
+    {w:"just",pl:"właśnie / dopiero co",cat:"time",form:"recent action",ex:"I have just finished.",note:"Często Present Perfect."},
+
+    // Linking words
+    {w:"and",pl:"i",cat:"linking",form:"linker",ex:"I work and study English.",note:"Łączy podobne informacje."},
+    {w:"but",pl:"ale",cat:"linking",form:"linker",ex:"I was tired, but I went to college.",note:"Kontrast."},
+    {w:"because",pl:"ponieważ / bo",cat:"linking",form:"reason",ex:"I am learning English because I want to improve.",note:"Podaje powód."},
+    {w:"so",pl:"więc / dlatego",cat:"linking",form:"result",ex:"I was tired, so I went home.",note:"Podaje skutek."},
+    {w:"although",pl:"chociaż",cat:"linking",form:"contrast",ex:"Although I was tired, I studied.",note:"Kontrast w jednym zdaniu."},
+    {w:"however",pl:"jednak / natomiast",cat:"linking",form:"contrast",ex:"The task was difficult. However, I finished it.",note:"Często zaczyna nowe zdanie."},
+    {w:"then",pl:"potem",cat:"linking",form:"sequence",ex:"I finished work, then I went home.",note:"Kolejność wydarzeń."},
+    {w:"after",pl:"po / po tym jak",cat:"linking",form:"sequence",ex:"After work, I went to the gym.",note:"Po rzeczowniku lub zdaniu."},
+    {w:"before",pl:"przed / zanim",cat:"linking",form:"sequence",ex:"I eat before work.",note:"Kolejność."},
+    {w:"while",pl:"podczas gdy",cat:"linking",form:"time/link",ex:"I listened while I was driving.",note:"Dwie czynności dziejące się równocześnie."},
+    {w:"during",pl:"podczas",cat:"linking",form:"preposition",ex:"I took notes during the lesson.",note:"During + noun."},
+
+    // Travel from the photographed unit
+    {w:"travel",pl:"podróżować / podróżowanie",cat:"travel",form:"general word",ex:"I love travel and visiting new places.",note:"Ogólnie o podróżowaniu."},
+    {w:"trip",pl:"wyjazd / konkretna podróż",cat:"travel",form:"noun",ex:"I went on a business trip.",note:"Konkretny wyjazd."},
+    {w:"journey",pl:"podróż / droga z A do B",cat:"travel",form:"noun",ex:"The journey took three hours.",note:"Skupia się na drodze/przemieszczaniu."},
+    {w:"voyage",pl:"długa podróż, często statkiem",cat:"travel",form:"noun",ex:"The Titanic sank on its first voyage.",note:"Długa podróż, tradycyjnie morska."},
+    {w:"set off",pl:"wyruszyć",cat:"travel",form:"phrasal verb",ex:"We set off early in the morning.",note:"Rozpocząć podróż."},
+    {w:"take off",pl:"wystartować",cat:"travel",form:"phrasal verb",ex:"The plane takes off at 8 a.m.",note:"Samolot odrywa się od ziemi."},
+    {w:"check in",pl:"zameldować się / odprawić",cat:"travel",form:"phrasal verb",ex:"We checked in at the hotel.",note:"Hotel lub lotnisko."},
+    {w:"check out",pl:"wymeldować się",cat:"travel",form:"phrasal verb",ex:"We checked out at 10 a.m.",note:"Opuścić hotel po pobycie."},
+    {w:"break down",pl:"zepsuć się",cat:"travel",form:"phrasal verb",ex:"Our car broke down.",note:"Maszyna/pojazd przestaje działać."},
+    {w:"get around",pl:"przemieszczać się",cat:"travel",form:"phrasal verb",ex:"We get around the city by bus.",note:"Poruszać się po miejscu."},
+    {w:"accommodation",pl:"zakwaterowanie",cat:"travel",form:"noun",ex:"The accommodation was comfortable.",note:"Miejsce, gdzie nocujesz."},
+    {w:"platform",pl:"peron",cat:"travel",form:"noun",ex:"The train leaves from platform 4.",note:"Na stacji kolejowej."},
+    {w:"delay",pl:"opóźnienie",cat:"travel",form:"noun",ex:"The train has a 20-minute delay.",note:"Coś jest później niż planowano."},
+
+    // Work / college
+    {w:"shift",pl:"zmiana w pracy",cat:"work",form:"noun",ex:"I work 12-hour shifts.",note:"Okres pracy."},
+    {w:"supervisor",pl:"brygadzista / przełożony",cat:"work",form:"noun",ex:"I work as a supervisor.",note:"Osoba nadzorująca zespół."},
+    {w:"manager",pl:"kierownik / menedżer",cat:"work",form:"noun",ex:"I spoke to my manager.",note:"Osoba zarządzająca."},
+    {w:"employee",pl:"pracownik",cat:"work",form:"noun",ex:"The employee arrived on time.",note:"Osoba zatrudniona."},
+    {w:"employer",pl:"pracodawca",cat:"work",form:"noun",ex:"My employer provides training.",note:"Firma/osoba zatrudniająca."},
+    {w:"responsibility",pl:"odpowiedzialność",cat:"work",form:"noun",ex:"I have responsibility for my team.",note:"To, za co odpowiadasz."},
+    {w:"training",pl:"szkolenie",cat:"work",form:"noun",ex:"I have safety training next week.",note:"Nauka umiejętności do pracy."},
+    {w:"maintenance",pl:"konserwacja / utrzymanie techniczne",cat:"work",form:"noun",ex:"The line stopped for maintenance.",note:"Prace techniczne."},
+    {w:"college",pl:"college / szkoła dalszej edukacji",cat:"work",form:"noun",ex:"I attend college on Wednesday.",note:"Miejsce nauki."},
+    {w:"course",pl:"kurs",cat:"work",form:"noun",ex:"I am doing an English course.",note:"Program nauki."},
+    {w:"exam",pl:"egzamin",cat:"work",form:"noun",ex:"I am preparing for my exam.",note:"Test końcowy."},
+    {w:"practice",pl:"praktyka / ćwiczenie",cat:"work",form:"noun/verb",ex:"I practise English every day.",note:"UK verb spelling is often 'practise'; noun is 'practice'."},
+
+    // Weather and idioms from photos
+    {w:"weather",pl:"pogoda",cat:"weather",form:"noun",ex:"The weather is good today.",note:"General conditions outside."},
+    {w:"mist",pl:"mgiełka / lekka mgła",cat:"weather",form:"noun",ex:"There was mist over the hills.",note:"Lżejsza niż fog."},
+    {w:"fog",pl:"gęsta mgła",cat:"weather",form:"noun",ex:"We drove slowly in the fog.",note:"Ogranicza widoczność."},
+    {w:"breeze",pl:"lekki wiatr",cat:"weather",form:"noun",ex:"There was a cool breeze.",note:"Także idiom: 'a breeze' = bardzo łatwe."},
+    {w:"under the weather",pl:"czuć się źle / być trochę chorym",cat:"weather",form:"idiom",ex:"I am feeling under the weather today.",note:"Idiom — nie tłumacz dosłownie."},
+    {w:"in a fog",pl:"być zdezorientowanym",cat:"weather",form:"idiom",ex:"I was in a fog after the long shift.",note:"Idiom o dezorientacji."},
+    {w:"come rain or shine",pl:"bez względu na wszystko / pogodę",cat:"weather",form:"idiom",ex:"I go to the gym come rain or shine.",note:"Niezależnie od warunków."},
+    {w:"a breeze",pl:"bardzo łatwe",cat:"weather",form:"idiom",ex:"The test was a breeze.",note:"Idiom: coś bardzo łatwego."},
+
+    // Useful distinctions
+    {w:"near",pl:"blisko",cat:"grammar",form:"preposition/adverb",ex:"The park is near my house.",note:"Near = blisko."},
+    {w:"nearly",pl:"prawie",cat:"grammar",form:"adverb",ex:"I am nearly finished.",note:"Nearly ≠ near."},
+    {w:"there",pl:"tam / jest",cat:"grammar",form:"adverb",ex:"There is a problem.",note:"There is/are = jest/są."},
+    {w:"their",pl:"ich",cat:"grammar",form:"possessive",ex:"Their car is outside.",note:"Their = należący do nich."},
+    {w:"they're",pl:"oni są",cat:"grammar",form:"they are",ex:"They're at work.",note:"Skrót od they are."},
+    {w:"your",pl:"twój / wasz",cat:"grammar",form:"possessive",ex:"What is your name?",note:"Your = należący do ciebie."},
+    {w:"you're",pl:"ty jesteś / wy jesteście",cat:"grammar",form:"you are",ex:"You're doing well.",note:"Skrót od you are."},
+    {w:"its",pl:"jego/jej dla rzeczy lub zwierzęcia",cat:"grammar",form:"possessive",ex:"The machine lost its position.",note:"Bez apostrofu."},
+    {w:"it's",pl:"to jest / to ma",cat:"grammar",form:"it is / it has",ex:"It's working now.",note:"Skrót od it is/it has."}
+  ];
+
+  function speakDictionary(text){
+    if("speechSynthesis" in window){
+      speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(text);
+      u.lang="en-GB";u.rate=.82;speechSynthesis.speak(u);
+    }
+  }
+
+  function renderDictionary(){
+    const q=($("#dictSearch").value||"").trim().toLowerCase();
+    const cat=$("#dictCategory").value;
+    const sort=$("#dictSort").value;
+    let arr=dictionaryWords.filter(x=>{
+      const matchesCat=cat==="all"||x.cat===cat;
+      const hay=(x.w+" "+x.pl+" "+x.form+" "+x.ex+" "+x.note).toLowerCase();
+      return matchesCat && (!q||hay.includes(q));
+    });
+    if(sort==="az") arr.sort((a,b)=>a.w.localeCompare(b.w));
+    else arr.sort((a,b)=>(a.cat+a.w).localeCompare(b.cat+b.w));
+    $("#dictCount").textContent=arr.length;
+    $("#dictList").innerHTML=arr.map((x,i)=>`
+      <div class="dict-card">
+        <div class="dict-word">
+          <strong>${esc(x.w)}</strong>
+          <span class="dict-form">${esc(x.form)}</span>
+          <button type="button" class="dict-audio" data-dict-audio="${dictionaryWords.indexOf(x)}">🔊</button>
+        </div>
+        <div class="dict-meaning">🇵🇱 ${esc(x.pl)}</div>
+        <div class="dict-example">🇬🇧 ${esc(x.ex)}</div>
+        <div class="dict-note">${esc(x.note)}</div>
+      </div>`).join("");
+    $$("[data-dict-audio]").forEach(b=>b.addEventListener("click",()=>speakDictionary(dictionaryWords[Number(b.dataset.dictAudio)].w)));
+  }
+  $("#dictSearch").addEventListener("input",renderDictionary);
+  $("#dictCategory").addEventListener("change",renderDictionary);
+  $("#dictSort").addEventListener("change",renderDictionary);
+  $("#randomWord").addEventListener("click",()=>{
+    const x=dictionaryWords[Math.floor(Math.random()*dictionaryWords.length)];
+    const box=$("#dictRandomCard");box.classList.remove("hidden");
+    box.innerHTML=`<div class="dict-word"><strong>${esc(x.w)}</strong><button type="button" class="dict-audio" id="randomAudio">🔊 Listen</button></div>
+      <div class="dict-meaning">🇵🇱 ${esc(x.pl)}</div><div class="dict-example">🇬🇧 ${esc(x.ex)}</div><div class="dict-note">${esc(x.note)}</div>`;
+    $("#randomAudio").addEventListener("click",()=>speakDictionary(x.w));
+  });
+
+  let dictQuizSet=[],dictQuizAnswers={};
+  function buildDictQuiz(){
+    dictQuizSet=[...dictionaryWords].sort(()=>Math.random()-.5).slice(0,10);
+    dictQuizAnswers={};
+    $("#dictQuiz").innerHTML=dictQuizSet.map((x,i)=>{
+      const wrong=[...dictionaryWords].filter(y=>y!==x && y.pl!==x.pl).sort(()=>Math.random()-.5).slice(0,3).map(y=>y.pl);
+      const opts=[x.pl,...wrong].sort(()=>Math.random()-.5);
+      return `<div class="question"><strong>${i+1}. ${esc(x.w)}</strong><br>
+        ${opts.map(o=>`<label class="option"><input type="radio" name="dq${i}" value="${esc(o)}"> ${esc(o)}</label>`).join("")}
+        <div id="dqfb${i}" class="hidden"></div></div>`;
+    }).join("");
+    dictQuizSet.forEach((x,i)=>{
+      $$(`input[name="dq${i}"]`).forEach(r=>r.addEventListener("change",()=>{
+        const fb=$("#dqfb"+i);fb.classList.remove("hidden");
+        if(r.value===x.pl){
+          dictQuizAnswers[i]=true;fb.className="live-feedback good";fb.innerHTML=`✓ Correct — <strong>${esc(x.w)}</strong> = ${esc(x.pl)}`;
+        }else{
+          dictQuizAnswers[i]=false;fb.className="live-feedback bad";fb.innerHTML=`✗ <strong>${esc(x.w)}</strong> = ${esc(x.pl)}<br><span class="muted">${esc(x.note)}</span>`;
+          addMistake("SP",`${x.w} = ${r.value}`,`${x.w} = ${x.pl}`,"Word meaning / dictionary");
+        }
+      }));
+    });
+    $("#dictQuizResult").textContent="Odpowiadaj po kolei — poprawne znaczenie pokaże się od razu.";
+  }
+  $("#dictQuizStart").addEventListener("click",()=>{
+    buildDictQuiz();
+    const checker=setInterval(()=>{
+      if(Object.keys(dictQuizAnswers).length===10){
+        clearInterval(checker);
+        const sc=Object.values(dictQuizAnswers).filter(Boolean).length;
+        $("#dictQuizResult").innerHTML=`<strong>${sc}/10</strong> — ${sc>=9?"Świetnie.":sc>=7?"Dobrze — powtórz błędne słowa.":"Powtórz Dictionary i zrób quiz jeszcze raz."}`;
+        recordSkill("vocabulary",sc>=8);stats.quizzes++;saveStats();
+      }
+    },300);
+  });
+  renderDictionary();
+
+
+  // Initialize visible states
+  showSpell();
+})();
+</script>
+
+<script>
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
